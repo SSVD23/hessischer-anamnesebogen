@@ -1,0 +1,106 @@
+{
+  "theme": {
+    "mode": "light",
+    "archetype": "1 (Organic & Earthy)",
+    "description": "Soft clinical teal + neutral grays. Calm medical style, focusing on trust, clarity, and simplicity. Avoid startup marketing look. Avoid colorful gradients and flashy visuals."
+  },
+  "colors": {
+    "background": "#F5F7F6",
+    "surface": "#FFFFFF",
+    "primary": "#4A7C6B",
+    "primary_hover": "#3A6355",
+    "secondary": "#E8ECEB",
+    "text_primary": "#1C2522",
+    "text_secondary": "#4A5D56",
+    "border": "#D1DBD7",
+    "error": "#E15241",
+    "success": "#3B82F6"
+  },
+  "typography": {
+    "headings": {
+      "font_family": "Manrope",
+      "style": "Clean, highly legible, friendly but professional",
+      "h1": "text-3xl sm:text-4xl font-bold tracking-tight text-[#1C2522]",
+      "h2": "text-2xl sm:text-3xl font-semibold tracking-tight text-[#1C2522]",
+      "h3": "text-xl font-medium tracking-tight text-[#1C2522]"
+    },
+    "body": {
+      "font_family": "IBM Plex Sans",
+      "style": "Clear, clinical, excellent readability for dense data",
+      "p": "text-base leading-relaxed text-[#4A5D56]",
+      "small": "text-sm text-[#4A5D56] opacity-80"
+    }
+  },
+  "spacing_and_layout": {
+    "philosophy": "Generous spacing. 1 section per screen (Step-by-step). Mobile-first. Max-width on desktop to prevent eye strain.",
+    "container": "max-w-2xl mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-12",
+    "card": "bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-[0_4px_24px_rgba(28,37,34,0.04)] border border-[#D1DBD7]",
+    "form_elements": "min-h-[56px] for large tap targets, generous padding"
+  },
+  "components": {
+    "buttons": {
+      "primary": "h-14 w-full rounded-2xl bg-[#4A7C6B] hover:bg-[#3A6355] text-white font-medium text-lg transition-colors flex items-center justify-center",
+      "secondary": "h-14 w-full rounded-2xl bg-[#E8ECEB] hover:bg-[#D1DBD7] text-[#1C2522] font-medium text-lg transition-colors flex items-center justify-center",
+      "ghost": "h-14 w-full rounded-2xl hover:bg-slate-50 text-[#4A5D56] font-medium text-lg transition-colors flex items-center justify-center"
+    },
+    "inputs": {
+      "text": "w-full min-h-[56px] rounded-xl border-[#D1DBD7] bg-[#F5F7F6] px-4 text-base focus:border-[#4A7C6B] focus:ring-1 focus:ring-[#4A7C6B] transition-shadow",
+      "textarea": "w-full min-h-[120px] rounded-xl border-[#D1DBD7] bg-[#F5F7F6] p-4 text-base focus:border-[#4A7C6B] focus:ring-1 focus:ring-[#4A7C6B] transition-shadow resize-none",
+      "checkbox": "h-6 w-6 rounded border-[#D1DBD7] text-[#4A7C6B] focus:ring-[#4A7C6B]",
+      "radio": "h-6 w-6 border-[#D1DBD7] text-[#4A7C6B] focus:ring-[#4A7C6B]"
+    },
+    "progress_bar": {
+      "container": "w-full h-2 bg-[#E8ECEB] rounded-full overflow-hidden",
+      "fill": "h-full bg-[#4A7C6B] transition-all duration-500 ease-out rounded-full"
+    }
+  },
+  "motion": {
+    "page_transition": "framer-motion: initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3, ease: 'easeOut' }}",
+    "interaction": "Subtle hover states on buttons. No bouncy or playful animations. Serious, calming motion."
+  },
+  "assets": {
+    "icons": {
+      "library": "lucide-react",
+      "style": "Stroke width 1.5, simple and clear."
+    },
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1487700160041-babef9c3cb55?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwcGxhbnQlMjBsZWFmfGVufDB8fHx8MTc4Mjk5NTgwMHww&ixlib=rb-4.1.0&q=85",
+        "description": "Minimalist green leaf in vase",
+        "usage": "Use as a very subtle, low-opacity background element or hero image on the landing screen to set a calm, organic tone. Ensure it does not distract from text readability."
+      }
+    ]
+  },
+  "accessibility": {
+    "contrast": "Ensure text contrast against background. Minimum 4.5:1 for body text.",
+    "tap_targets": "Minimum 48px, preferred 56px for buttons and form fields.",
+    "testing": "All interactive and key informational elements MUST include `data-testid` attribute (e.g., `data-testid=\"start-anamnesis-button\"`)"
+  },
+  "pages_and_flow": [
+    {
+      "name": "Landing / Intro",
+      "description": "Welcome screen. Title: 'Digital Anamnesis / Digitale Anamnese'. Language switcher (DE/EN) in header. Clear explanation of privacy (data stays on device). Prototype disclaimer. 'Start' button."
+    },
+    {
+      "name": "Profile Creation",
+      "description": "Simple form to create or select a profile (Name, Date of Birth). Auto-save to localStorage."
+    },
+    {
+      "name": "Multi-Step Questionnaire",
+      "description": "8 sections. Sticky header with progress bar (e.g., 'Step 1 of 8'). Sections: 1. Personal Basics, 2. Current Complaints, 3. Allergies, 4. Medication, 5. Previous Illnesses, 6. Previous Operations, 7. Family History, 8. Lifestyle. One section per view."
+    },
+    {
+      "name": "Review Screen",
+      "description": "Summary of all entered data before final submission. Read-only view with 'Edit' buttons for each section. Must clearly display all filled fields."
+    },
+    {
+      "name": "Final Summary",
+      "description": "Thank you message. Buttons to 'Print/Save as PDF' (using window.print()) and 'Download JSON' (Blob export). Option to 'Start Over / Delete Data'."
+    }
+  ],
+  "implementation_notes": {
+    "storage": "Use localStorage for all data persistence. Implement a hook like `useLocalStorage`. No backend. Data must be structured logically in a JSON object.",
+    "i18n": "Implement a simple translation dictionary in a separate file (e.g., `i18n.js`) with complete DE and EN strings for all 8 sections and UI elements. Provide a React Context for easy access.",
+    "tech_stack": "React, Tailwind CSS, Framer Motion, Lucide React, standard HTML forms heavily styled via Tailwind. Use .js/.jsx extensions, not TypeScript."
+  }
+}
