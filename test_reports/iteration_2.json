@@ -1,0 +1,29 @@
+{
+  "summary": "Full end-to-end frontend testing of the re-architected vanilla-CSS 'Digitale Anamnese' PWA. Verified welcome page (German default, badge, 4 disclaimer bullets, start button 'Zu den Profilen'), language switcher (all 7 languages, Arabic RTL applied via document.dir=rtl, language persisted in localStorage under 'anamnesis_language' after reload), profile CRUD (create, select, rename via window.prompt, delete via ConfirmDialog modal - answers removed together, clear-all via danger-zone modal returns to welcome and wipes anamnesis_profiles/anamnesis_active_profile/anamnesis_answers_*), 8-section questionnaire with progress indicator ('Abschnitt X von 8' + percentage), all 6 field types (text/number/date/textarea/select/checkbox multi), required-field validation on beschwerden.mainComplaint blocks Next and shows inline error, per-profile isolation of answers (second profile starts empty), autosave to anamnesis_answers_<id> restores after full page reload, summary page shows 8 grouped section 'Bearbeiten' jump-back buttons and last-saved timestamp, JSON export downloads with correct schema (schemaVersion:'1.0', language, profile, savedAt, exportedAt, answers), and Print/PDF button present. No backend to test.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "ProfileSelector row", "issue": "On 430px mobile viewport the profile list row (name + Auswählen + Umbenennen + Löschen) overflows horizontally, with the Löschen button partially cut off at the right edge. Row should wrap or stack on narrow viewports.", "selector": ".profile-item / ProfileSelector row", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Profile page (mobile)", "issues": ["Profile row action buttons overflow container on <=430px width"]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Make the ProfileSelector row responsive on mobile (flex-wrap or stack buttons under the profile name) so 'Löschen' is not clipped at 430px width."
+  ],
+  "critical_code_review_comments": [
+    "storageService.clearAllData() does NOT remove the 'anamnesis_active_profile' key (only PROFILES_KEY and ANSWERS_PREFIX keys are collected). It happens to work in the UI because App.jsx also resets state, but on a subsequent reload the stale active profile id would still be in localStorage. Add ACTIVE_KEY to the keys collected in clearAllData(). Language key not being wiped is arguably fine (user's UI preference), but should be an intentional decision documented.",
+    "App.jsx currentSection is not reset when the user finishes the questionnaire and later navigates back via the header brand -> welcome -> profile -> continue; it is only reset in selectProfile and on the 'onContinue' button path (that path DOES reset to 0, so this is OK; noted for completeness).",
+    "QuestionField.jsx: help-text detection uses string equality against the key path; if a translation happens to equal the key, it would be shown. Low risk; document behavior.",
+    "No data-testid attributes anywhere (explicitly requested by client for thesis code cleanliness) — noted, tests rely on ids/text/classes."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100% of tested user flows PASS (12/12 features)"},
+  "seed_data_creation": "Tests seeded and cleaned localStorage in-browser; no persistent data.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "All 12 review-request features verified PASS on 430x900 mobile viewport against the deployed REACT_APP_BACKEND_URL. Only observed issue is a responsive layout clipping of the profile row's Löschen button on narrow screens, and a latent bug in storageService.clearAllData that leaves 'anamnesis_active_profile' in localStorage (masked by App.jsx state reset). Selectors that worked: '#lang-select', '.page button.btn--primary' (welcome/continue), 'button[type=submit]' (create profile), 'button.btn--danger.btn--block' + 'div.modal .btn--danger' (clear all confirm), 'button' has_text 'Löschen' / 'Umbenennen' / 'Auswählen', 'button:has-text(\\'Weiter\\')' and 'button:has-text(\\'Zusammenfassung\\')' for nav, '#q-<fieldId>' for inputs, '#q-chronicConditions-<opt>' for checkbox options. IMPORTANT gotcha: header brand button also contains the word 'Anamnese' — never use just has_text='Anamnese' for the continue button; scope with '.page button.btn--primary'."
+}

@@ -1,0 +1,561 @@
+/*
+  global.css
+  Vanilla-CSS-Grundgestaltung fuer den Anamnese-Prototyp.
+  Mobile-first, ruhige klinische Optik (Teal + neutrale Grautoene),
+  sichtbare Fokuszustaende (Barrierefreiheit) und eigener @media print Block.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+:root {
+  --teal: #4a7c6b;
+  --teal-dark: #3a6355;
+  --teal-soft: rgba(74, 124, 107, 0.1);
+  --bg: #f5f7f6;
+  --surface: #ffffff;
+  --text: #1c2522;
+  --muted: #4a5d56;
+  --border: #d1dbd7;
+  --error: #e15241;
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(28, 37, 34, 0.05);
+  --maxw: 720px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Manrope", system-ui, sans-serif;
+  color: var(--text);
+  line-height: 1.2;
+  margin: 0 0 0.4em;
+}
+
+h1 {
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
+a {
+  color: var(--teal);
+}
+
+/* ---------- Layout ---------- */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(245, 247, 246, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.brand__mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--teal);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+
+.page {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  width: 100%;
+  padding: 1.5rem 1rem 3rem;
+  flex: 1;
+}
+
+.app-footer {
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+  text-align: center;
+}
+.app-footer small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  margin-top: -0.2rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 52px;
+  padding: 0 1.25rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+.btn--block {
+  width: 100%;
+}
+.btn--primary {
+  background: var(--teal);
+  color: #fff;
+}
+.btn--primary:hover {
+  background: var(--teal-dark);
+}
+.btn--secondary {
+  background: #e8eceb;
+  color: var(--text);
+}
+.btn--secondary:hover {
+  background: var(--border);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--teal);
+  border-color: var(--border);
+}
+.btn--ghost:hover {
+  background: var(--teal-soft);
+}
+.btn--danger {
+  background: transparent;
+  color: var(--error);
+  border-color: rgba(225, 82, 65, 0.4);
+}
+.btn--danger:hover {
+  background: rgba(225, 82, 65, 0.08);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-row {
+  display: flex;
+  gap: 0.75rem;
+}
+.btn-row .btn {
+  flex: 1;
+}
+
+/* ---------- Forms ---------- */
+.field {
+  margin-bottom: 1.4rem;
+}
+.field > label,
+.fieldset > legend {
+  display: block;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+  font-size: 0.98rem;
+}
+.field .req {
+  color: var(--error);
+}
+.field .help {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0.35rem 0 0;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-soft);
+}
+.input.has-error,
+.textarea.has-error,
+.select.has-error {
+  border-color: var(--error);
+}
+.error-msg {
+  color: var(--error);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0.35rem 0 0;
+}
+
+.fieldset {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  margin: 0;
+}
+.check-option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  font-size: 0.98rem;
+}
+.check-option input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--teal);
+  flex-shrink: 0;
+}
+
+/* ---------- Progress ---------- */
+.progress {
+  margin-bottom: 1.25rem;
+}
+.progress__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.progress__track {
+  height: 8px;
+  background: #e8eceb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress__fill {
+  height: 100%;
+  background: var(--teal);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* ---------- Language switcher ---------- */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.lang-switch select {
+  min-height: 40px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* ---------- Profiles ---------- */
+.profile-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: grid;
+  gap: 0.6rem;
+}
+.profile-item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+  background: var(--surface);
+}
+.profile-item.is-active {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+.profile-item__name {
+  font-weight: 600;
+}
+.profile-item__meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.profile-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.profile-item__actions .icon-btn {
+  flex: 1 1 auto;
+}
+.icon-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.icon-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+.icon-btn--danger:hover {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+/* ---------- Summary ---------- */
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #edf1ef;
+}
+.summary-row:last-child {
+  border-bottom: none;
+}
+.summary-row dt {
+  color: var(--muted);
+  font-size: 0.9rem;
+  flex: 1;
+}
+.summary-row dd {
+  margin: 0;
+  font-weight: 500;
+  text-align: right;
+  flex: 1;
+}
+.summary-row dd.empty {
+  color: #9aa8a2;
+  font-style: italic;
+  font-weight: 400;
+}
+.summary-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+/* ---------- Notice / disclaimer ---------- */
+.notice {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  background: #eef2f0;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.notice ul {
+  margin: 0.3rem 0 0;
+  padding-left: 1.1rem;
+}
+.badge {
+  display: inline-block;
+  background: #e8eceb;
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.autosave-hint {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.6rem;
+}
+
+.feature-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+/* ---------- Modal / Confirm dialog ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 37, 34, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 50;
+}
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+.modal h3 {
+  margin-top: 0;
+}
+
+/* ---------- Focus visibility (Barrierefreiheit) ---------- */
+:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Responsive: ab Tablet etwas mehr Luft ---------- */
+@media (min-width: 640px) {
+  h1 {
+    font-size: 2rem;
+  }
+  .page {
+    padding: 2rem 1.5rem 3.5rem;
+  }
+  .card {
+    padding: 1.75rem;
+  }
+  .feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .summary-row dt,
+  .summary-row dd {
+    font-size: 0.95rem;
+  }
+  .profile-item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .profile-item__actions .icon-btn {
+    flex: 0 0 auto;
+  }
+}
+
+/* ---------- Druckansicht ---------- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .page {
+    max-width: 100%;
+    padding: 0;
+  }
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    break-inside: avoid;
+  }
+  .summary-row {
+    border-bottom: 1px solid #ddd;
+  }
+  .print-title {
+    display: block !important;
+  }
+}
+.print-title {
+  display: none;
+}

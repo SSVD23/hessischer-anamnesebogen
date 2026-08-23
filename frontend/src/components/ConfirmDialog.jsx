@@ -1,0 +1,34 @@
+/*
+  ConfirmDialog.jsx
+  Kleiner, wiederverwendbarer Bestaetigungsdialog (Sicherheitsabfrage) in Vanilla-Umsetzung.
+  Wird fuer "Profil loeschen" und "Alle Daten loeschen" verwendet.
+  Schliesst bei Klick auf den Hintergrund oder "Abbrechen".
+*/
+import React from "react";
+
+export function ConfirmDialog({ open, title, text, confirmLabel, cancelLabel, onConfirm, onCancel }) {
+  if (!open) return null;
+
+  return (
+    <div className="modal-backdrop" role="presentation" onClick={onCancel}>
+      <div
+        className="modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3>{title}</h3>
+        <p>{text}</p>
+        <div className="btn-row">
+          <button type="button" className="btn btn--secondary" onClick={onCancel}>
+            {cancelLabel}
+          </button>
+          <button type="button" className="btn btn--danger" onClick={onConfirm}>
+            {confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
