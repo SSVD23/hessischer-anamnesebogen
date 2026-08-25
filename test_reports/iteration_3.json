@@ -1,0 +1,27 @@
+{
+  "summary": "Verified 4 new deliverables on the vanilla-CSS Digitale Anamnese PWA on 430x900 mobile viewport against REACT_APP_BACKEND_URL. (1) Translation completeness: switching #lang-select to fr/es/tr/hi/ar shows fully localized section headings and question labels/option texts in the questionnaire (no English fallback). Verified section 1 (Stammdaten) label 'Prénom' + gender options (Féminin/Masculin/Divers/Ne se prononce pas) in FR; section 2 (beschwerden) headings and mainComplaint label in fr='Motif principal', es='Motivo principal', tr='Ana şikayet', hi='मुख्य शिकायत', ar='الشكوى الرئيسية'. (2) Arabic RTL: selecting ar sets document.documentElement.dir='rtl' both on welcome and questionnaire pages; switching to another language returns dir to 'ltr'. Language persists in localStorage 'anamnesis_language' after full reload. (3) Share demo flow: 'Zusammenfassung an Praxis senden' opens modal role=dialog with #share-practice select; send btn disabled until practice chosen; after send shows 'Wird gesendet …' briefly then success state with 'DEMO-XXXXXX' reference (e.g. DEMO-E2E2HIH). Zero non-GET network requests observed during the flow (purely simulated). Close button dismisses modal. (4) A11y: leaving #q-mainComplaint empty and clicking Weiter/Suivant produces an inline #err-mainComplaint with role='alert' containing localized message; input gets aria-invalid='true' and aria-describedby='err-mainComplaint'; keyboard focus moves to #q-mainComplaint; sr-only aria-live region announces summary ('1 champ(s) à corriger.'). PWA: GET /service-worker.js -> 200 (application/javascript), GET /manifest.json -> 200; navigator.serviceWorker.getRegistrations() length=1, no console errors. Regression: JSON export downloads (anamnese_anna_2026-08-25.json), Print button present, existing profile create/select/questionnaire/summary flow works.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Profile page (mobile 430px)", "issues": ["Carry-over from iteration_2: ProfileSelector row (Auswählen/Umbenennen/Löschen) can clip on narrow viewports. Not part of this iteration's scope."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "index.js registers the service worker at `${process.env.PUBLIC_URL || ''}/service-worker.js`. Works with default CRA build. If the app is ever deployed under a subpath, PUBLIC_URL must be set; otherwise fine.",
+    "ShareDialog useEffect resets state on open — good. Modal backdrop click closes dialog; consider adding Escape-key close for a11y (minor).",
+    "QuestionnairePage announce region uses role='alert' AND aria-live='assertive' — assertive is appropriate here. Focus is set via requestAnimationFrame + getElementById, which is reliable; consider preventScroll:false is default so page will jump — currently scrollTo(top) is also called immediately after which is fine.",
+    "storageService.clearAllData() still does not remove ACTIVE_KEY (carry-over from iteration_2). Latent bug only masked by App.jsx state reset.",
+    "translations.js file is very long; each language object is complete for section labels, question labels, options, share.*, a11y.errorSummary — good."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100% — all 8 review-request features PASS"},
+  "seed_data_creation": "Seeded localStorage in-browser to jump to questionnaire quickly (JSON.stringify required for read() JSON.parse). No persistent server data.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Use JSON.stringify when seeding localStorage keys (anamnesis_active_profile, anamnesis_language) because storageService.read() JSON.parses. Continue button on ProfilePage is the LAST .page button.btn--primary (index -1); the first primary is the 'Create profile' submit that is disabled when the name field is empty. Share button on Summary matches text 'Praxis' (DE) / 'Send summary' (EN). #err-mainComplaint carries role='alert'; input #q-mainComplaint has aria-invalid='true' and aria-describedby='err-mainComplaint' after failed goNext. Non-GET network requests during ShareDialog send: none (purely simulated setTimeout).",
+  "rca_of_the_issue": "N/A — no issues found in this iteration."
+}

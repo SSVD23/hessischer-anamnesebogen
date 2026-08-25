@@ -25,6 +25,7 @@ export function QuestionnairePage({
   onFinish,
 }) {
   const [errors, setErrors] = useState({});
+  const [announce, setAnnounce] = useState("");
 
   const section = questionnaireDefinition.sections[currentSection];
   const sectionAnswers = answers[section.id] || {};
@@ -36,10 +37,24 @@ export function QuestionnairePage({
     const sectionErrors = validateSection(section, sectionAnswers, t);
     if (hasErrors(sectionErrors)) {
       setErrors(sectionErrors);
+      const count = Object.keys(sectionErrors).length;
+      setAnnounce(t("a11y.errorSummary", { count }));
+      // Fokus auf das erste fehlerhafte Feld setzen (Tastatur- und Screenreader-Bedienung).
+      const firstId = Object.keys(sectionErrors)[0];
+      const firstField = section.fields.find((f) => f.id === firstId);
+      const domId =
+        firstField && firstField.type === "checkbox"
+          ? `q-${firstId}-${firstField.options[0]}`
+          : `q-${firstId}`;
+      requestAnimationFrame(() => {
+        const el = document.getElementById(domId);
+        if (el) el.focus();
+      });
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     setErrors({});
+    setAnnounce("");
     if (isLast) {
       onFinish();
     } else {
@@ -61,6 +76,11 @@ export function QuestionnairePage({
   return (
     <div className="page">
       <ProgressIndicator current={currentSection + 1} total={TOTAL_SECTIONS} t={t} />
+
+      {/* Unsichtbare Live-Region: Screenreader liest Validierungsfehler vor. */}
+      <div className="sr-only" role="alert" aria-live="assertive">
+        {announce}
+      </div>
 
       <p className="section-desc" style={{ marginBottom: "0.5rem" }}>
         <strong>{t("questionnaire.editingFor")}:</strong> {profileName}

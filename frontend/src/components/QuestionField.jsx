@@ -40,7 +40,11 @@ export function QuestionField({ field, value, error, onChange, t }) {
             </label>
           ))}
         </fieldset>
-        {error && <p className="error-msg">{error}</p>}
+        {error && (
+          <p id={`err-${field.id}`} className="error-msg" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     );
   }
@@ -59,6 +63,7 @@ export function QuestionField({ field, value, error, onChange, t }) {
           className={error ? "textarea has-error" : "textarea"}
           value={value ?? ""}
           aria-invalid={!!error}
+          aria-describedby={error ? `err-${field.id}` : undefined}
           onChange={(e) => onChange(e.target.value)}
         />
       )}
@@ -69,6 +74,7 @@ export function QuestionField({ field, value, error, onChange, t }) {
           className={error ? "select has-error" : "select"}
           value={value ?? ""}
           aria-invalid={!!error}
+          aria-describedby={error ? `err-${field.id}` : undefined}
           onChange={(e) => onChange(e.target.value)}
         >
           <option value="">—</option>
@@ -90,12 +96,13 @@ export function QuestionField({ field, value, error, onChange, t }) {
           max={field.max}
           value={value ?? ""}
           aria-invalid={!!error}
+          aria-describedby={error ? `err-${field.id}` : undefined}
           onChange={(e) => onChange(e.target.value)}
         />
       )}
 
       {hasHelp && <p className="help">{help}</p>}
-      {error && <p className="error-msg">{error}</p>}
+      {error && <p id={`err-${field.id}`} className="error-msg" role="alert">{error}</p>}
     </div>
   );
 }

@@ -4,9 +4,19 @@
   Wird fuer "Profil loeschen" und "Alle Daten loeschen" verwendet.
   Schliesst bei Klick auf den Hintergrund oder "Abbrechen".
 */
-import React from "react";
+import React, { useEffect } from "react";
 
 export function ConfirmDialog({ open, title, text, confirmLabel, cancelLabel, onConfirm, onCancel }) {
+  // Schließen per Escape-Taste (Barrierefreiheit / Tastaturbedienung).
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") onCancel();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onCancel]);
+
   if (!open) return null;
 
   return (

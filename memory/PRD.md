@@ -21,11 +21,14 @@ Plattform startet das Frontend über craco (nicht Vite) — der Build-Runner kan
 Patient:in, füllt eigene oder Familien-Anamnese (Kind/Eltern) auf dem eigenen Smartphone vor dem Praxisbesuch aus. Optional Praxispersonal.
 
 ## Umgesetzt (2026-06)
-- 7-sprachige i18n inkl. Arabisch RTL (document.dir), Sprache persistiert.
-- Multi-Profil: erstellen/auswählen/umbenennen/löschen (Bestätigungsdialog), pro Profil getrennte Antworten.
-- 8-Abschnitt-Fragebogen, dynamisch generiert; Feldtypen text/textarea/select/checkbox(multi)/number/date; Fortschrittsanzeige; Pflichtfeld-Validierung (mainComplaint).
-- Autosave + Wiederherstellung nach Reload; Zusammenfassung (gruppiert, Sprung-zurück-Bearbeitung); Druck/PDF-CSS; JSON-Export; „Alle Daten löschen“.
-- Verifiziert: Testing-Agent iteration_2 = 12/12 Flows PASS. Behobene Restpunkte: responsive Profilzeile (mobile), clearAllData.
+- 7-sprachige i18n **vollständig** (alle Fragen-Labels + Optionen in de/en/ar/tr/hi/fr/es), Arabisch RTL, Sprache persistiert.
+- Multi-Profil: erstellen/auswählen/umbenennen/löschen (Bestätigungsdialog, Escape schließt), pro Profil getrennte Antworten.
+- 8-Abschnitt-Fragebogen, dynamisch generiert; Feldtypen text/textarea/select/checkbox(multi)/number/date; Fortschrittsanzeige; Pflichtfeld-Validierung.
+- Barrierefreiheit: Validierungsfehler per aria-live (role=alert) vorgelesen, Fokus springt auf erstes Fehlerfeld, aria-invalid/aria-describedby, Escape schließt Dialoge, sichtbare Fokuszustände.
+- „An Praxis senden (Demo)": simulierter Ablauf (ShareDialog) als Konzept-Platzhalter — überträgt KEINE Daten, erzeugt Demo-Referenznummer.
+- PWA: Service Worker (public/service-worker.js, network-first HTML / cache-first Assets) + Manifest → installier- und offline-fähig.
+- Autosave + Wiederherstellung; Zusammenfassung mit Sprung-zurück; Druck/PDF-CSS; JSON-Export; „Alle Daten löschen".
+- Verifiziert: Testing-Agent iteration_2 (12/12) + iteration_3 (8/8 neue Features) = 100% PASS.
 
 ## Backlog (P1/P2)
 - P1: Restliche Sprachen (ar/tr/hi/fr/es) für Fragenlabels vollständig übersetzen.
