@@ -48,4 +48,4 @@ Alle Angaben verbleiben ausschließlich auf dem Gerät der Nutzerin/des Nutzers.
 
 ## Status
 
-Bachelorarbeits-Prototyp. Details zum aktuellen Funktionsumfang und offenen Punkten siehe [`memory/PRD.md`](memory/PRD.md).
+Bachelorarbeits-Prototyp.
