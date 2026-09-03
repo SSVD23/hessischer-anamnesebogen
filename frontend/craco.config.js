@@ -71,13 +71,9 @@ if (config.enableHealthCheck) {
 
 let webpackConfig = {
   eslint: {
-    configure: {
-      extends: ["plugin:react-hooks/recommended"],
-      rules: {
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
-      },
-    },
+    // Die ESLint-Regeln stehen ausschliesslich in .eslintrc.json ("root": true).
+    // Dadurch werden Konfigurationen in uebergeordneten Ordnern ignoriert.
+    enable: true,
   },
   webpack: {
     alias: {

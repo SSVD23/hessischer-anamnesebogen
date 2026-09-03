@@ -33,10 +33,33 @@ export const questionnaireDefinition = {
     {
       id: "beschwerden",
       fields: [
-        { id: "mainComplaint", type: "textarea", required: true },
+        // Zwei-Stufen-Auswahl: erst Koerperbereich, dann konkrete Beschwerde.
+        // Vorteil: die Werte sind bereits uebersetzt, es muss kein Freitext
+        // aus einer Fremdsprache uebersetzt werden.
+        {
+          id: "bodyRegion",
+          type: "select",
+          required: true,
+          options: ["head", "torso", "internal", "limbs", "skin", "psyche", "general"],
+        },
+        {
+          id: "complaintDetail",
+          type: "dependentSelect",
+          dependsOn: "bodyRegion",
+          optionsBy: {
+            head: ["headache", "dizziness", "earPain", "eyeProblem", "toothPain", "sinus"],
+            torso: ["chestPain", "backPain", "breathing", "palpitations"],
+            internal: ["abdominalPain", "nausea", "diarrhea", "constipation", "urination", "heartburn"],
+            limbs: ["kneePain", "shoulderPain", "elbowPain", "hipPain", "anklePain", "swelling"],
+            skin: ["rash", "itching", "wound", "moleChange"],
+            psyche: ["sleepProblem", "anxiety", "lowMood", "stress"],
+            general: ["fever", "fatigue", "weightLoss", "appetite"],
+          },
+        },
         { id: "since", type: "text" },
         { id: "painLevel", type: "number", min: 0, max: 10 },
-        { id: "symptoms", type: "textarea" },
+        // Auffangfeld fuer seltene Faelle (bewusst als Freitext belassen).
+        { id: "complaintOther", type: "textarea" },
       ],
     },
     {
@@ -64,6 +87,16 @@ export const questionnaireDefinition = {
       id: "allergien",
       fields: [
         { id: "hasAllergies", type: "select", options: ["yes", "no", "unknown"] },
+        // Die haeufigsten Allergien als Mehrfachauswahl. Damit wird ein grosser
+        // Teil der Faelle ohne uebersetzungsbeduerftigen Freitext abgedeckt.
+        {
+          id: "commonAllergies",
+          type: "checkbox",
+          options: [
+            "pollen", "houseDust", "animalHair", "insectVenom", "penicillin",
+            "otherDrugs", "nuts", "lactose", "gluten", "contrastAgent",
+          ],
+        },
         { id: "allergyList", type: "textarea" },
       ],
     },
@@ -90,5 +123,13 @@ export const questionnaireDefinition = {
     },
   ],
 };
+
+// Fachrichtungen. Umgesetzt ist ausschliesslich die Allgemeinmedizin;
+// die weiteren Eintraege sind angedeutet, um die Erweiterbarkeit zu zeigen.
+export const SPECIALTIES = [
+  { id: "generalPractice", available: true },
+  { id: "internalMedicine", available: false },
+  { id: "orthopedics", available: false },
+];
 
 export const TOTAL_SECTIONS = questionnaireDefinition.sections.length;

@@ -5,6 +5,7 @@
   Loesch-Aktionen werden ueber den wiederverwendbaren ConfirmDialog bestaetigt.
 */
 import React, { useState } from "react";
+import { SPECIALTIES } from "../data/questionnaireDefinition.js";
 import { ProfileSelector } from "../components/ProfileSelector.jsx";
 import { ConfirmDialog } from "../components/ConfirmDialog.jsx";
 
@@ -21,14 +22,18 @@ export function ProfilePage({
 }) {
   const [name, setName] = useState("");
   const [birthYear, setBirthYear] = useState("");
+  const [insuranceNumber, setInsuranceNumber] = useState("");
+  const [insurer, setInsurer] = useState("");
   const [pendingDelete, setPendingDelete] = useState(null); // Profil, das geloescht werden soll
   const [clearAllOpen, setClearAllOpen] = useState(false);
 
   const handleCreate = (e) => {
     e.preventDefault();
     if (!name.trim()) return;
-    onCreateProfile(name.trim(), birthYear.trim());
+    onCreateProfile(name.trim(), birthYear.trim(), insuranceNumber.trim(), insurer.trim());
     setName("");
+    setInsuranceNumber("");
+    setInsurer("");
     setBirthYear("");
   };
 
@@ -66,10 +71,53 @@ export function ProfilePage({
             onChange={(e) => setBirthYear(e.target.value)}
           />
         </div>
+        {/* Nummer der elektronischen Gesundheitskarte: ein Name ist nicht eindeutig,
+            die Versichertennummer dagegen schon. Wird nur lokal gespeichert. */}
+        <div className="field">
+          <label htmlFor="new-profile-insno">{t("profile.insuranceNumberLabel")}</label>
+          <input
+            id="new-profile-insno"
+            className="input"
+            type="text"
+            value={insuranceNumber}
+            placeholder={t("profile.insuranceNumberPlaceholder")}
+            onChange={(e) => setInsuranceNumber(e.target.value)}
+          />
+          <p className="field-help">{t("profile.insuranceNumberHelp")}</p>
+        </div>
+        <div className="field">
+          <label htmlFor="new-profile-insurer">{t("profile.insurerLabel")}</label>
+          <input
+            id="new-profile-insurer"
+            className="input"
+            type="text"
+            value={insurer}
+            placeholder={t("profile.insurerPlaceholder")}
+            onChange={(e) => setInsurer(e.target.value)}
+          />
+        </div>
         <button type="submit" className="btn btn--primary btn--block" disabled={!name.trim()}>
           {t("profile.create")}
         </button>
       </form>
+
+      {/* Fachrichtung des Bogens.
+          Umgesetzt ist ausschliesslich die Allgemeinmedizin; die weiteren
+          Eintraege sind deaktiviert und zeigen lediglich, dass die
+          datengetriebene Struktur eine Erweiterung erlaubt. */}
+      <div className="card">
+        <div className="field" style={{ marginBottom: 0 }}>
+          <label htmlFor="specialty-select">{t("profile.specialtyLabel")}</label>
+          <select id="specialty-select" className="input" defaultValue="generalPractice">
+            {SPECIALTIES.map((sp) => (
+              <option key={sp.id} value={sp.id} disabled={!sp.available}>
+                {t(`profile.specialties.${sp.id}`)}
+                {!sp.available ? ` (${t("profile.specialtySoon")})` : ""}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
       {/* Profil-Liste */}
       <ProfileSelector

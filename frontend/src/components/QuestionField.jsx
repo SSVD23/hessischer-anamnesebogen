@@ -8,12 +8,52 @@
 */
 import React from "react";
 
-export function QuestionField({ field, value, error, onChange, t }) {
+export function QuestionField({ field, value, error, onChange, t, sectionAnswers = {} }) {
   const fieldId = `q-${field.id}`;
   const label = t(`questions.${field.id}.label`);
   const help = t(`questions.${field.id}.help`);
   const hasHelp = help !== `questions.${field.id}.help`; // Schluessel unaufgeloest => kein Hilfetext
   const inputClass = error ? "input has-error" : "input";
+
+  // Abhaengiges Auswahlfeld: die Optionen ergeben sich aus der Antwort eines
+  // vorgelagerten Feldes (z. B. Koerperbereich -> konkrete Beschwerde).
+  // Dadurch bleibt die Eingabe eine uebersetzte Auswahl statt Freitext.
+  if (field.type === "dependentSelect") {
+    const parentValue = sectionAnswers[field.dependsOn];
+    const options = (parentValue && field.optionsBy[parentValue]) || [];
+    const disabled = options.length === 0;
+
+    return (
+      <div className="field">
+        <label htmlFor={fieldId}>
+          {label}
+          {field.required && <span className="req"> *</span>}
+        </label>
+        {hasHelp && <p className="field-help">{help}</p>}
+        <select
+          id={fieldId}
+          className={inputClass}
+          value={value || ""}
+          disabled={disabled}
+          aria-invalid={error ? "true" : undefined}
+          aria-describedby={error ? `err-${field.id}` : undefined}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          <option value="">{t("common.pleaseSelect")}</option>
+          {options.map((opt) => (
+            <option key={opt} value={opt}>
+              {t(`questions.${field.id}.options.${opt}`)}
+            </option>
+          ))}
+        </select>
+        {error && (
+          <p id={`err-${field.id}`} className="error-msg" role="alert">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  }
 
   // Checkbox-Gruppe (Mehrfachauswahl) -> eigenes fieldset mit legend
   if (field.type === "checkbox") {

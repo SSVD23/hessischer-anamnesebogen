@@ -26,6 +26,9 @@ export default function App() {
   const [activeProfileId, setActiveProfileId] = useState(() => storage.loadActiveProfileId());
   const [page, setPage] = useState("welcome"); // welcome | profile | questionnaire | summary
   const [currentSection, setCurrentSection] = useState(0);
+  // Merkt, dass ein Abschnitt aus der Zusammenfassung heraus bearbeitet wird.
+  // Nach dem Speichern wird dann direkt dorthin zurueckgesprungen.
+  const [returnToSummary, setReturnToSummary] = useState(false);
   const [answersData, setAnswersData] = useState({ answers: {}, language: "de", updatedAt: null });
 
   // An die aktuelle Sprache gebundene Translator-Funktion.
@@ -55,8 +58,16 @@ export default function App() {
   }, [activeProfileId]);
 
   // --- Profil-Aktionen ---
-  const createProfile = useCallback((name, birthYear) => {
-    const profile = { id: newId(), name, birthYear: birthYear || "", createdAt: new Date().toISOString() };
+  const createProfile = useCallback((name, birthYear, insuranceNumber, insurer) => {
+    const profile = {
+      id: newId(),
+      name,
+      birthYear: birthYear || "",
+      // Nummer der elektronischen Gesundheitskarte: eindeutig, im Gegensatz zum Namen.
+      insuranceNumber: insuranceNumber || "",
+      insurer: insurer || "",
+      createdAt: new Date().toISOString(),
+    };
     setProfiles((prev) => {
       const next = [...prev, profile];
       storage.saveProfiles(next);
@@ -114,9 +125,20 @@ export default function App() {
     [activeProfileId, language]
   );
 
+  // Kurzes Uebergabeprotokoll: haelt fest, wann welcher Datensatz wem gezeigt wurde.
+  // Der QR-Code selbst wird bewusst nicht gespeichert.
+  const recordHandover = useCallback(
+    (entry) => {
+      if (!activeProfileId) return;
+      storage.appendHandover(activeProfileId, entry);
+    },
+    [activeProfileId]
+  );
+
   // Sprung aus der Zusammenfassung zurueck in einen bestimmten Abschnitt.
   const editSection = useCallback((index) => {
     setCurrentSection(index);
+    setReturnToSummary(true);
     setPage("questionnaire");
   }, []);
 
@@ -137,6 +159,7 @@ export default function App() {
         onClearAll={clearAll}
         onContinue={() => {
           setCurrentSection(0);
+          setReturnToSummary(false);
           setPage("questionnaire");
         }}
       />
@@ -151,7 +174,9 @@ export default function App() {
         onAnswerChange={handleAnswerChange}
         onSectionChange={setCurrentSection}
         onExit={() => setPage("profile")}
-        onFinish={() => setPage("summary")}
+        onFinish={() => { setReturnToSummary(false); setPage("summary"); }}
+        returnToSummary={returnToSummary}
+        onReturnToSummary={() => { setReturnToSummary(false); setPage("summary"); }}
       />
     );
   } else if (page === "summary" && activeProfile) {
@@ -163,6 +188,7 @@ export default function App() {
         answersData={answersData}
         onEditSection={editSection}
         onBack={() => setPage("questionnaire")}
+        onHandover={recordHandover}
       />
     );
   } else {
@@ -176,7 +202,7 @@ export default function App() {
       onRenameProfile={renameProfile}
       onDeleteProfile={deleteProfile}
       onClearAll={clearAll}
-      onContinue={() => { setCurrentSection(0); setPage("questionnaire"); }}
+      onContinue={() => { setCurrentSection(0); setReturnToSummary(false); setPage("questionnaire"); }}
     />;
   }
 

@@ -13,6 +13,8 @@
 const PROFILES_KEY = "anamnesis_profiles";
 const ACTIVE_KEY = "anamnesis_active_profile";
 const LANGUAGE_KEY = "anamnesis_language";
+// Uebergabeprotokoll je Profil: wann wurde welcher Datensatz wem gezeigt.
+const HANDOVER_PREFIX = "anamnesis_handover_";
 const ANSWERS_PREFIX = "anamnesis_answers_";
 
 // --- interne Helfer ---
@@ -75,9 +77,29 @@ export function deleteProfile(profileId) {
   saveProfiles(remaining);
   try {
     window.localStorage.removeItem(ANSWERS_PREFIX + profileId);
+    window.localStorage.removeItem(HANDOVER_PREFIX + profileId);
   } catch (e) {}
   if (loadActiveProfileId() === profileId) saveActiveProfileId(null);
   return remaining;
+}
+
+/*
+  Uebergabeprotokoll.
+  Der QR-Code selbst wird bewusst NICHT gespeichert - er wird bei Bedarf neu
+  erzeugt. Festgehalten wird nur, wann ein Datensatz welchem Empfaenger
+  gezeigt wurde. Das macht spaetere Rueckfragen nachvollziehbar
+  ("welche Fassung habe ich Dr. X wann uebergeben?").
+*/
+export function loadHandovers(profileId) {
+  return read(HANDOVER_PREFIX + profileId, []);
+}
+
+export function appendHandover(profileId, entry) {
+  const list = loadHandovers(profileId);
+  // Nur die letzten 20 Eintraege vorhalten (Datensparsamkeit).
+  const next = [...list, entry].slice(-20);
+  write(HANDOVER_PREFIX + profileId, next);
+  return next;
 }
 
 // Loescht ALLE lokal gespeicherten Daten der App (Profile + Antworten + Auswahl).
@@ -89,7 +111,8 @@ export function clearAllData() {
       if (
         key === PROFILES_KEY ||
         key === ACTIVE_KEY ||
-        (key && key.startsWith(ANSWERS_PREFIX))
+        (key && key.startsWith(ANSWERS_PREFIX)) ||
+        (key && key.startsWith(HANDOVER_PREFIX))
       ) {
         keys.push(key);
       }

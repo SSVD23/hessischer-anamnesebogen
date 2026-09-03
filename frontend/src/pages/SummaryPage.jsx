@@ -7,10 +7,12 @@
 import React, { useState } from "react";
 import { SummaryView } from "../components/SummaryView.jsx";
 import { ExportActions } from "../components/ExportActions.jsx";
-import { ShareDialog } from "../components/ShareDialog.jsx";
+import { QrDialog } from "../components/QrDialog.jsx";
+import { DonationDialog } from "../components/DonationDialog.jsx";
 
-export function SummaryPage({ t, language, profile, answersData, onEditSection, onBack }) {
-  const [shareOpen, setShareOpen] = useState(false);
+export function SummaryPage({ t, language, profile, answersData, onEditSection, onBack, onHandover }) {
+  const [qrOpen, setQrOpen] = useState(false);
+  const [donationOpen, setDonationOpen] = useState(false);
   const savedAt = answersData.updatedAt
     ? new Date(answersData.updatedAt).toLocaleString(language === "de" ? "de-DE" : "en-GB")
     : "—";
@@ -47,13 +49,24 @@ export function SummaryPage({ t, language, profile, answersData, onEditSection, 
 
       <ExportActions profile={profile} answersData={answersData} t={t} />
 
+      {/* Uebergabe an die Praxis per QR-Code (keine Netzwerkuebertragung). */}
+      <button
+        type="button"
+        className="btn btn--primary btn--block no-print"
+        style={{ marginTop: "0.75rem" }}
+        onClick={() => setQrOpen(true)}
+      >
+        {t("qr.title")}
+      </button>
+
+      {/* Anonymisierte Datenspende - im Prototyp nur konzeptionell. */}
       <button
         type="button"
         className="btn btn--ghost btn--block no-print"
         style={{ marginTop: "0.75rem" }}
-        onClick={() => setShareOpen(true)}
+        onClick={() => setDonationOpen(true)}
       >
-        {t("share.button")}
+        {t("donation.button")}
       </button>
 
       <button type="button" className="btn btn--ghost btn--block no-print" style={{ marginTop: "0.75rem" }} onClick={onBack}>
@@ -64,7 +77,21 @@ export function SummaryPage({ t, language, profile, answersData, onEditSection, 
         {t("ui.disclaimerShort")}
       </div>
 
-      <ShareDialog open={shareOpen} onClose={() => setShareOpen(false)} t={t} />
+      <QrDialog
+        open={qrOpen}
+        onClose={() => setQrOpen(false)}
+        profile={profile}
+        answersData={answersData}
+        t={t}
+        onHandover={onHandover}
+      />
+      <DonationDialog
+        open={donationOpen}
+        onClose={() => setDonationOpen(false)}
+        profile={profile}
+        answersData={answersData}
+        t={t}
+      />
     </div>
   );
 }

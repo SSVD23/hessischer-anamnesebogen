@@ -23,6 +23,8 @@ export function QuestionnairePage({
   onSectionChange,
   onExit,
   onFinish,
+  returnToSummary = false,
+  onReturnToSummary,
 }) {
   const [errors, setErrors] = useState({});
   const [announce, setAnnounce] = useState("");
@@ -55,6 +57,12 @@ export function QuestionnairePage({
     }
     setErrors({});
     setAnnounce("");
+    // Wurde dieser Abschnitt aus der Zusammenfassung heraus geoeffnet,
+    // springt die Anwendung direkt dorthin zurueck (kein erneuter Durchlauf).
+    if (returnToSummary && onReturnToSummary) {
+      onReturnToSummary();
+      return;
+    }
     if (isLast) {
       onFinish();
     } else {
@@ -94,6 +102,7 @@ export function QuestionnairePage({
             field={field}
             value={sectionAnswers[field.id]}
             error={errors[field.id]}
+            sectionAnswers={sectionAnswers}
             onChange={(value) => onAnswerChange(section.id, field.id, value)}
             t={t}
           />
@@ -102,7 +111,13 @@ export function QuestionnairePage({
 
       <p className="autosave-hint no-print">✓ {t("ui.autosaved")}</p>
 
-      <SectionNavigation isFirst={isFirst} isLast={isLast} onBack={goBack} onNext={goNext} t={t} />
+      <SectionNavigation
+        isFirst={isFirst}
+        isLast={isLast || returnToSummary}
+        onBack={goBack}
+        onNext={goNext}
+        t={t}
+      />
     </div>
   );
 }
