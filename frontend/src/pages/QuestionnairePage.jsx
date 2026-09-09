@@ -34,9 +34,21 @@ export function QuestionnairePage({
   const isFirst = currentSection === 0;
   const isLast = currentSection === TOTAL_SECTIONS - 1;
 
+  // Felder mit visibleIf blenden sich anhand einer Antwort aus einem anderen
+  // Abschnitt ein/aus (z. B. "Schwangerschaft" nur bei gender = female in den
+  // Stammdaten). Ausgeblendete Felder werden nicht gerendert und daher auch
+  // nicht validiert.
+  const visibleFields = section.fields.filter((field) => {
+    if (!field.visibleIf) return true;
+    const dep = answers[field.visibleIf.section] || {};
+    return dep[field.visibleIf.field] === field.visibleIf.equals;
+  });
+
   const goNext = () => {
     // Aktuellen Abschnitt validieren, bevor weitergeblaettert wird.
-    const sectionErrors = validateSection(section, sectionAnswers, t);
+    // Nur sichtbare Felder werden geprueft (visibleIf-Felder koennen sonst
+    // faelschlich als fehlend gelten, obwohl sie gar nicht angezeigt werden).
+    const sectionErrors = validateSection({ ...section, fields: visibleFields }, sectionAnswers, t);
     if (hasErrors(sectionErrors)) {
       setErrors(sectionErrors);
       const count = Object.keys(sectionErrors).length;
@@ -96,7 +108,7 @@ export function QuestionnairePage({
       <h2>{t(`sections.${section.id}`)}</h2>
 
       <div className="card">
-        {section.fields.map((field) => (
+        {visibleFields.map((field) => (
           <QuestionField
             key={field.id}
             field={field}

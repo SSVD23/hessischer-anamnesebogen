@@ -114,6 +114,15 @@ export const questionnaireDefinition = {
             "contactEczema",
           ],
         },
+        // Eigene, von den Allergien getrennte Kategorie: Laktose- und
+        // Glutenunvertraeglichkeit sind keine Allergien (siehe oben), werden
+        // aber haeufig genug angegeben, um eine eigene Mehrfachauswahl zu
+        // rechtfertigen. "Sonstiges" bleibt ueber das Freitextfeld abgedeckt.
+        {
+          id: "commonIntolerances",
+          type: "checkbox",
+          options: ["lactoseIntolerance", "glutenIntolerance"],
+        },
         { id: "allergyList", type: "textarea" },
       ],
     },
@@ -121,7 +130,18 @@ export const questionnaireDefinition = {
       id: "operationen",
       fields: [
         { id: "hasOperations", type: "select", options: ["yes", "no"] },
-        { id: "operationList", type: "textarea" },
+        // Wiederholbare Gruppe statt einzelnem Freitextfeld: pro Operation ein
+        // Feld fuer die Bezeichnung und eines fuer die Jahreszahl, damit die
+        // Angaben chronologisch statt als unstrukturierte Aufzaehlung erfasst
+        // werden. Wert ist ein Array aus { description, year }.
+        {
+          id: "operationList",
+          type: "repeatableGroup",
+          itemFields: [
+            { id: "description", type: "text" },
+            { id: "year", type: "number", min: 1900, max: 2100 },
+          ],
+        },
       ],
     },
     {
@@ -129,6 +149,14 @@ export const questionnaireDefinition = {
       fields: [
         { id: "smoking", type: "select", options: ["never", "former", "occasionally", "regularly"] },
         { id: "alcohol", type: "select", options: ["never", "occasionally", "weekly", "daily"] },
+        // Nur sichtbar, wenn im Abschnitt "Stammdaten" gender = female gewaehlt wurde.
+        {
+          id: "pregnant",
+          type: "select",
+          options: ["yes", "no"],
+          visibleIf: { section: "stammdaten", field: "gender", equals: "female" },
+        },
+        { id: "drugs", type: "select", options: ["never", "occasionally", "regularly"] },
         { id: "exercise", type: "select", options: ["none", "rarely", "weekly", "daily"] },
         { id: "sleep", type: "text" },
         { id: "diet", type: "textarea" },

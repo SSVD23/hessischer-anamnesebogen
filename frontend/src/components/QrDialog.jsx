@@ -14,14 +14,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { buildExport } from "../services/exportService.js";
 import { buildQrCode } from "../services/qrService.js";
+import { loadHandovers } from "../services/storageService.js";
 
 const RECIPIENTS = ["practice", "specialist", "hospital", "other"];
 
 export function QrDialog({ open, onClose, profile, answersData, t, onHandover }) {
   const [recipient, setRecipient] = useState("practice");
+  // Freiwilliger Klarname zusaetzlich zur Kategorie (z. B. "Hausarztpraxis
+  // Mueller"), damit im Verlauf nachvollziehbar bleibt, wem konkret ein
+  // Datensatz gezeigt wurde - nicht nur, welcher Art von Stelle.
+  const [recipientName, setRecipientName] = useState("");
   const [qr, setQr] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   // Escape schliesst den Dialog (Tastaturbedienung).
   useEffect(() => {
@@ -36,6 +42,7 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
     if (!open) {
       setQr(null);
       setError("");
+      setShowHistory(false);
     }
   }, [open]);
 
@@ -43,18 +50,25 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
     setBusy(true);
     setError("");
     try {
-      const payload = buildExport(profile, answersData, { recipient });
+      const trimmedName = recipientName.trim();
+      const payload = buildExport(profile, answersData, {
+        recipient: trimmedName || recipient,
+      });
       const result = await buildQrCode(payload);
       setQr(result);
-      // Uebergabe protokollieren (Zeitstempel + Empfaenger).
-      if (onHandover) onHandover({ recipient, at: payload.exportedAt });
+      // Uebergabe protokollieren (Zeitstempel, Kategorie und optionaler Klarname).
+      if (onHandover) {
+        onHandover({ recipient, recipientName: trimmedName || null, at: payload.exportedAt });
+      }
     } catch (err) {
       setError(err.code === "payload-too-large" ? t("qr.tooLarge") : t("qr.failed"));
       setQr(null);
     } finally {
       setBusy(false);
     }
-  }, [profile, answersData, recipient, onHandover, t]);
+  }, [profile, answersData, recipient, recipientName, onHandover, t]);
+
+  const history = open ? loadHandovers(profile.id) : [];
 
   if (!open) return null;
 
@@ -89,6 +103,22 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
           </select>
         </div>
 
+        <div className="field">
+          <label htmlFor="qr-recipient-name">{t("qr.recipientNameLabel")}</label>
+          <input
+            id="qr-recipient-name"
+            className="input"
+            type="text"
+            value={recipientName}
+            placeholder={t("qr.recipientNamePlaceholder")}
+            onChange={(e) => {
+              setRecipientName(e.target.value);
+              setQr(null);
+            }}
+          />
+          <p className="field-help">{t("qr.recipientNameHelp")}</p>
+        </div>
+
         {qr && (
           <div className="qr-box">
             <img src={qr.dataUrl} alt={t("qr.imageAlt")} width="320" height="320" />
@@ -105,6 +135,31 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
         <div className="notice" style={{ marginTop: "0.75rem" }}>
           {t("qr.privacyNote")}
         </div>
+
+        <button
+          type="button"
+          className="btn btn--ghost btn--block"
+          style={{ marginTop: "0.75rem" }}
+          onClick={() => setShowHistory((v) => !v)}
+        >
+          {showHistory ? t("qr.hideHistory") : t("qr.showHistory")}
+        </button>
+
+        {showHistory && (
+          history.length === 0 ? (
+            <p className="field-help">{t("qr.historyEmpty")}</p>
+          ) : (
+            <ul className="handover-history">
+              {[...history].reverse().map((entry, i) => (
+                <li key={i}>
+                  <strong>{entry.recipientName || t(`qr.recipients.${entry.recipient}`)}</strong>
+                  {" — "}
+                  {new Date(entry.at).toLocaleString()}
+                </li>
+              ))}
+            </ul>
+          )
+        )}
 
         <div className="modal-actions">
           <button type="button" className="btn btn--primary" onClick={generate} disabled={busy}>

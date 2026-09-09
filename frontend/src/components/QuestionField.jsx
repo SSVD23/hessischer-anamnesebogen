@@ -55,6 +55,73 @@ export function QuestionField({ field, value, error, onChange, t, sectionAnswers
     );
   }
 
+  // Wiederholbare Gruppe (z. B. mehrere Operationen mit je einer Jahreszahl).
+  // Wert ist ein Array von Objekten, ein Eintrag pro itemFields-Zeile.
+  if (field.type === "repeatableGroup") {
+    const items = Array.isArray(value) && value.length > 0 ? value : [{}];
+
+    const updateItem = (index, itemFieldId, itemValue) => {
+      const next = items.map((item, i) =>
+        i === index ? { ...item, [itemFieldId]: itemValue } : item
+      );
+      onChange(next);
+    };
+    const addItem = () => onChange([...items, {}]);
+    const removeItem = (index) => {
+      const next = items.filter((_, i) => i !== index);
+      onChange(next.length > 0 ? next : [{}]);
+    };
+
+    return (
+      <div className="field">
+        <fieldset className="fieldset">
+          <legend>
+            {label}
+            {field.required && <span className="req"> *</span>}
+          </legend>
+          {items.map((item, index) => (
+            <div className="repeatable-row" key={index}>
+              {field.itemFields.map((itemField) => (
+                <input
+                  key={itemField.id}
+                  id={`${fieldId}-${index}-${itemField.id}`}
+                  className="input"
+                  type={itemField.type === "number" ? "number" : "text"}
+                  inputMode={itemField.type === "number" ? "numeric" : undefined}
+                  min={itemField.min}
+                  max={itemField.max}
+                  placeholder={t(`questions.${field.id}.itemFields.${itemField.id}`)}
+                  aria-label={t(`questions.${field.id}.itemFields.${itemField.id}`)}
+                  value={item[itemField.id] ?? ""}
+                  onChange={(e) => updateItem(index, itemField.id, e.target.value)}
+                />
+              ))}
+              {items.length > 1 && (
+                <button
+                  type="button"
+                  className="btn btn--ghost"
+                  onClick={() => removeItem(index)}
+                  aria-label={t("common.removeEntry")}
+                >
+                  {t("common.removeEntry")}
+                </button>
+              )}
+            </div>
+          ))}
+          <button type="button" className="btn btn--ghost" onClick={addItem}>
+            {t("common.addEntry")}
+          </button>
+        </fieldset>
+        {hasHelp && <p className="field-help">{help}</p>}
+        {error && (
+          <p id={`err-${field.id}`} className="error-msg" role="alert">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  }
+
   // Checkbox-Gruppe (Mehrfachauswahl) -> eigenes fieldset mit legend
   if (field.type === "checkbox") {
     const selected = Array.isArray(value) ? value : [];

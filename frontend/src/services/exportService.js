@@ -83,19 +83,26 @@ export function buildDonation(profile, answersData, options = {}) {
 }
 
 // Loest den Download der JSON-Datei aus.
-export function downloadJson(profile, answersData) {
-  const payload = buildExport(profile, answersData);
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const safeName = (profile.name || "profil").replace(/[^a-z0-9_-]+/gi, "_").toLowerCase();
-  const date = new Date().toISOString().slice(0, 10);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `anamnese_${safeName}_${date}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
+//
+// Auf Ruecksprache mit dem Erstpruefer deaktiviert: Der lokale Datei-Export
+// ist fuer die Datenschutz-Argumentation der Arbeit nicht relevant und
+// hinterlaesst zudem eine unverschluesselte Kopie der Anamnesedaten im
+// Downloads-Ordner des Geraets. Funktion bleibt auskommentiert erhalten,
+// `buildExport` selbst wird weiterhin von der QR-Uebergabe verwendet.
+//
+// export function downloadJson(profile, answersData) {
+//   const payload = buildExport(profile, answersData);
+//   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+//   const url = URL.createObjectURL(blob);
+//
+//   const safeName = (profile.name || "profil").replace(/[^a-z0-9_-]+/gi, "_").toLowerCase();
+//   const date = new Date().toISOString().slice(0, 10);
+//
+//   const a = document.createElement("a");
+//   a.href = url;
+//   a.download = `anamnese_${safeName}_${date}.json`;
+//   document.body.appendChild(a);
+//   a.click();
+//   document.body.removeChild(a);
+//   URL.revokeObjectURL(url);
+// }
