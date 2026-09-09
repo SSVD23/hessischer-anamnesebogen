@@ -80,6 +80,17 @@ export const questionnaireDefinition = {
       id: "medikamente",
       fields: [
         { id: "takesMedication", type: "select", options: ["yes", "no"] },
+        // Haeufige Dauermedikationen als Mehrfachauswahl, aus dem gleichen
+        // Grund wie bei commonAllergies: deckt den Grossteil der Faelle ab,
+        // ohne dass Freitext uebersetzt werden muss.
+        {
+          id: "commonMedications",
+          type: "checkbox",
+          options: [
+            "bloodPressure", "painRelief", "bloodThinner", "diabetesMed", "cholesterol",
+            "thyroidHormone", "antidepressant", "contraceptive", "asthmaInhaler", "sedative",
+          ],
+        },
         { id: "medicationList", type: "textarea" },
       ],
     },
@@ -89,12 +100,18 @@ export const questionnaireDefinition = {
         { id: "hasAllergies", type: "select", options: ["yes", "no", "unknown"] },
         // Die haeufigsten Allergien als Mehrfachauswahl. Damit wird ein grosser
         // Teil der Faelle ohne uebersetzungsbeduerftigen Freitext abgedeckt.
+        // Auswahl an den Kategorien der Studie zur Gesundheit Erwachsener in
+        // Deutschland (DEGS1) ausgerichtet. Laktose- und Glutenunvertraeglichkeit
+        // sind bewusst nicht enthalten: Es handelt sich um Intoleranzen bzw. eine
+        // Autoimmunerkrankung und nicht um Allergien. Sie koennen weiterhin im
+        // Freitextfeld "Unvertraeglichkeiten" angegeben werden.
         {
           id: "commonAllergies",
           type: "checkbox",
           options: [
             "pollen", "houseDust", "animalHair", "insectVenom", "penicillin",
-            "otherDrugs", "nuts", "lactose", "gluten", "contrastAgent",
+            "otherDrugs", "nuts", "contrastAgent", "neurodermitis", "urticaria",
+            "contactEczema",
           ],
         },
         { id: "allergyList", type: "textarea" },
@@ -133,3 +150,20 @@ export const SPECIALTIES = [
 ];
 
 export const TOTAL_SECTIONS = questionnaireDefinition.sections.length;
+
+// Krankenkassen zur Auswahl (feste Schreibweise verhindert Duplikate/Tippfehler
+// wie "TK" vs. "Techniker" vs. "techniker krankenkasse"). "other" blendet ein
+// Freitextfeld fuer nicht gelistete Kassen ein. Die Markennamen selbst werden
+// nicht uebersetzt (Eigennamen); nur "private" und "other" sind sprachabhaengig,
+// siehe translations.js unter profile.insurers.
+export const INSURERS = [
+  { id: "aok", label: "AOK" },
+  { id: "tk", label: "TK" },
+  { id: "barmer", label: "Barmer" },
+  { id: "dak", label: "DAK-Gesundheit" },
+  { id: "ikk", label: "IKK" },
+  { id: "bkk", label: "BKK" },
+  { id: "knappschaft", label: "Knappschaft" },
+  { id: "private", label: "Privat versichert" },
+  { id: "other", label: "" },
+];

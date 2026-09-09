@@ -5,7 +5,11 @@
   sichtbare Fokuszustaende (Barrierefreiheit) und eigener @media print Block.
 */
 
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+/* Schriftarten werden lokal ausgeliefert (siehe fonts.css). Ein Abruf ueber
+   Google Fonts wuerde bei jedem Seitenaufruf die IP-Adresse des Endgeraets an
+   einen Drittanbieter uebermitteln und dem Grundsatz widersprechen, dass die
+   Anwendung keine Verbindung zu Dritten aufbaut. */
+@import url("./fonts.css");
 
 :root {
   --teal: #4a7c6b;
@@ -438,7 +442,8 @@ a {
 /* ---------- Notice / disclaimer ---------- */
 .notice {
   display: flex;
-  gap: 0.6rem;
+  flex-direction: column;
+  gap: 0.4rem;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border);
   background: #eef2f0;
@@ -491,6 +496,8 @@ a {
   padding: 1.5rem;
   max-width: 420px;
   width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
 .modal h3 {

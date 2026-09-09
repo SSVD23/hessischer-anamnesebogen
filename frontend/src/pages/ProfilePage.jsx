@@ -5,7 +5,7 @@
   Loesch-Aktionen werden ueber den wiederverwendbaren ConfirmDialog bestaetigt.
 */
 import React, { useState } from "react";
-import { SPECIALTIES } from "../data/questionnaireDefinition.js";
+import { SPECIALTIES, INSURERS } from "../data/questionnaireDefinition.js";
 import { ProfileSelector } from "../components/ProfileSelector.jsx";
 import { ConfirmDialog } from "../components/ConfirmDialog.jsx";
 
@@ -23,17 +23,23 @@ export function ProfilePage({
   const [name, setName] = useState("");
   const [birthYear, setBirthYear] = useState("");
   const [insuranceNumber, setInsuranceNumber] = useState("");
-  const [insurer, setInsurer] = useState("");
+  const [insurerId, setInsurerId] = useState("");
+  const [insurerOther, setInsurerOther] = useState("");
   const [pendingDelete, setPendingDelete] = useState(null); // Profil, das geloescht werden soll
   const [clearAllOpen, setClearAllOpen] = useState(false);
 
   const handleCreate = (e) => {
     e.preventDefault();
     if (!name.trim()) return;
-    onCreateProfile(name.trim(), birthYear.trim(), insuranceNumber.trim(), insurer.trim());
+    const insurer =
+      insurerId === "other"
+        ? insurerOther.trim()
+        : INSURERS.find((i) => i.id === insurerId)?.label || "";
+    onCreateProfile(name.trim(), birthYear.trim(), insuranceNumber.trim(), insurer);
     setName("");
     setInsuranceNumber("");
-    setInsurer("");
+    setInsurerId("");
+    setInsurerOther("");
     setBirthYear("");
   };
 
@@ -87,14 +93,30 @@ export function ProfilePage({
         </div>
         <div className="field">
           <label htmlFor="new-profile-insurer">{t("profile.insurerLabel")}</label>
-          <input
+          <select
             id="new-profile-insurer"
             className="input"
-            type="text"
-            value={insurer}
-            placeholder={t("profile.insurerPlaceholder")}
-            onChange={(e) => setInsurer(e.target.value)}
-          />
+            value={insurerId}
+            onChange={(e) => setInsurerId(e.target.value)}
+          >
+            <option value="">{t("profile.insurerPlaceholder")}</option>
+            {INSURERS.map((ins) => (
+              <option key={ins.id} value={ins.id}>
+                {t(`profile.insurers.${ins.id}`)}
+              </option>
+            ))}
+          </select>
+          {insurerId === "other" && (
+            <input
+              id="new-profile-insurer-other"
+              className="input"
+              type="text"
+              style={{ marginTop: "0.5rem" }}
+              value={insurerOther}
+              placeholder={t("profile.insurerOtherPlaceholder")}
+              onChange={(e) => setInsurerOther(e.target.value)}
+            />
+          )}
         </div>
         <button type="submit" className="btn btn--primary btn--block" disabled={!name.trim()}>
           {t("profile.create")}
