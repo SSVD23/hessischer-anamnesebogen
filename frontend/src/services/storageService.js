@@ -1,19 +1,19 @@
 /*
   storageService.js
-  Kapselt saemtliche Zugriffe auf window.localStorage (Web Storage API).
+  Kapselt sämtliche Zugriffe auf window.localStorage (Web Storage API).
   Kein anderer Teil der App spricht localStorage direkt an -> zentrale, testbare Persistenzschicht.
 
   Speicherstruktur:
-    anamnesis_profiles          -> Array von Profil-Metadaten [{ id, name, birthYear, createdAt }]
-    anamnesis_active_profile    -> id des zuletzt gewaehlten Profils
-    anamnesis_language          -> zuletzt gewaehlter Sprachcode
+    anamnesis_profiles          -> Array von Profil-Metadaten [{ id, name, birthYear, insuranceNumber, insurer, createdAt }]
+    anamnesis_active_profile    -> id des zuletzt gewählten Profils
+    anamnesis_language          -> zuletzt gewählter Sprachcode
     anamnesis_answers_<id>      -> { answers, language, updatedAt } je Profil (getrennt gespeichert)
 */
 
 const PROFILES_KEY = "anamnesis_profiles";
 const ACTIVE_KEY = "anamnesis_active_profile";
 const LANGUAGE_KEY = "anamnesis_language";
-// Uebergabeprotokoll je Profil: wann wurde welcher Datensatz wem gezeigt.
+// Übergabeprotokoll je Profil: wann wurde welcher Datensatz wem gezeigt.
 const HANDOVER_PREFIX = "anamnesis_handover_";
 const ANSWERS_PREFIX = "anamnesis_answers_";
 
@@ -31,7 +31,7 @@ function write(key, value) {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
-    // Speicher voll / nicht verfuegbar -> im Prototyp still ignorieren
+    // Speicher voll / nicht verfügbar -> im Prototyp still ignorieren
   }
 }
 
@@ -71,7 +71,7 @@ export function saveAnswers(profileId, data) {
   write(ANSWERS_PREFIX + profileId, data);
 }
 
-// Loescht ein Profil UND dessen Antworten.
+// Löscht ein Profil UND dessen Antworten.
 export function deleteProfile(profileId) {
   const remaining = loadProfiles().filter((p) => p.id !== profileId);
   saveProfiles(remaining);
@@ -84,11 +84,11 @@ export function deleteProfile(profileId) {
 }
 
 /*
-  Uebergabeprotokoll.
+  Übergabeprotokoll.
   Der QR-Code selbst wird bewusst NICHT gespeichert - er wird bei Bedarf neu
-  erzeugt. Festgehalten wird nur, wann ein Datensatz welchem Empfaenger
-  gezeigt wurde. Das macht spaetere Rueckfragen nachvollziehbar
-  ("welche Fassung habe ich Dr. X wann uebergeben?").
+  erzeugt. Festgehalten wird nur, wann ein Datensatz welchem Empfänger
+  gezeigt wurde. Das macht spätere Rückfragen nachvollziehbar
+  ("welche Fassung habe ich Dr. X wann übergeben?").
 */
 export function loadHandovers(profileId) {
   return read(HANDOVER_PREFIX + profileId, []);
@@ -96,13 +96,13 @@ export function loadHandovers(profileId) {
 
 export function appendHandover(profileId, entry) {
   const list = loadHandovers(profileId);
-  // Nur die letzten 20 Eintraege vorhalten (Datensparsamkeit).
+  // Nur die letzten 20 Einträge vorhalten (Datensparsamkeit).
   const next = [...list, entry].slice(-20);
   write(HANDOVER_PREFIX + profileId, next);
   return next;
 }
 
-// Loescht ALLE lokal gespeicherten Daten der App (Profile + Antworten + Auswahl).
+// Löscht ALLE lokal gespeicherten Daten der App (Profile + Antworten + Auswahl).
 export function clearAllData() {
   try {
     const keys = [];
@@ -111,6 +111,7 @@ export function clearAllData() {
       if (
         key === PROFILES_KEY ||
         key === ACTIVE_KEY ||
+        key === LANGUAGE_KEY ||
         (key && key.startsWith(ANSWERS_PREFIX)) ||
         (key && key.startsWith(HANDOVER_PREFIX))
       ) {

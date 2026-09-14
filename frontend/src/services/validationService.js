@@ -1,8 +1,8 @@
 /*
   validationService.js
   Einfache, wiederverwendbare Validierung der Formulareingaben.
-  Gibt ein Objekt strukturierter Fehler zurueck: { <fieldId>: <lokalisierte Meldung> }.
-  Die Fehlermeldungen werden ueber die uebergebene Translator-Funktion (t) lokalisiert,
+  Gibt ein Objekt strukturierter Fehler zurück: { <fieldId>: <lokalisierte Meldung> }.
+  Die Fehlermeldungen werden über die übergebene Translator-Funktion (t) lokalisiert,
   damit Meldungen in allen Sprachen erscheinen.
 */
 
@@ -22,7 +22,7 @@ export function validateSection(section, sectionAnswers = {}, t) {
   section.fields.forEach((field) => {
     const value = sectionAnswers[field.id];
 
-    // Pflichtfeld-Pruefung
+    // Pflichtfeld-Prüfung
     if (field.required && isEmpty(value)) {
       errors[field.id] = t("validation.required");
       return;

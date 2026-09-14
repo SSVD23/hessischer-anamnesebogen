@@ -19,15 +19,20 @@ Patient:innen füllen ihre (oder die eines Familienmitglieds) Anamnese vor dem P
 
 ## Architektur
 
+Die Anwendung ist rein clientseitig aufgebaut. Es gibt weder einen Server- noch
+einen Datenbankanteil.
+
 ```
 frontend/   React-App (Create React App + craco), Vanilla CSS, keine UI-Bibliothek
-  src/components/   wiederverwendbare UI-Komponenten
-  src/pages/        Welcome, ProfilePage, QuestionnairePage, SummaryPage
+  src/App.jsx       zentraler Anwendungszustand
+  src/index.js      Einstiegspunkt, Registrierung des Service Workers
+  src/pages/        WelcomePage, ProfilePage, QuestionnairePage, SummaryPage
+  src/components/   zehn wiederverwendbare UI-Komponenten
   src/services/     Storage, Übersetzung, Validierung, Export, QR-Code
-  src/data/         Fragebogen-Definition (questionnaireDefinition.js) & Übersetzungen (translations.js)
-backend/    FastAPI-Grundgerüst (aktuell ungenutzt – die App speichert ausschließlich lokal)
-memory/     Produktanforderungen (PRD.md) und Projektstand
-test_reports/  Protokolle vergangener Testing-Iterationen
+  src/data/         Fragebogen-Definition (questionnaireDefinition.js) und
+                    Übersetzungen (translations.js)
+  src/styles/       Stylesheets und Schriftarten
+  public/           index.html, Web App Manifest, Service Worker
 ```
 
 Persistenz erfolgt ausschließlich über `window.localStorage` (keine Datenbank, kein Server-Roundtrip für die eigentliche Anwendungslogik).

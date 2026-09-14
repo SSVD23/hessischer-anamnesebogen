@@ -1,12 +1,12 @@
 /*
   App.jsx
   Zentrale Komponente und einziger relevanter Zustandshalter der Anwendung.
-  Verantwortlich fuer:
+  Verantwortlich für:
     - Seiten-Navigation (welcome / profile / questionnaire / summary)
-    - Sprache (inkl. Textrichtung fuer RTL-Sprachen wie Arabisch)
-    - Profile (laden, anlegen, auswaehlen, umbenennen, loeschen, alles loeschen)
+    - Sprache (inkl. Textrichtung für RTL-Sprachen wie Arabisch)
+    - Profile (laden, anlegen, auswählen, umbenennen, löschen, alles löschen)
     - Antworten des aktiven Profils inkl. automatischem Speichern (Autosave)
-  Fachlogik ist in die Services ausgelagert; die Seiten sind ueberwiegend darstellend.
+  Fachlogik ist in die Services ausgelagert; die Seiten sind überwiegend darstellend.
 */
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import * as storage from "./services/storageService.js";
@@ -17,7 +17,7 @@ import { ProfilePage } from "./pages/ProfilePage.jsx";
 import { QuestionnairePage } from "./pages/QuestionnairePage.jsx";
 import { SummaryPage } from "./pages/SummaryPage.jsx";
 
-// Kleine ID-Hilfe (ausreichend eindeutig fuer einen lokalen Prototyp).
+// Kleine ID-Hilfe (ausreichend eindeutig für einen lokalen Prototyp).
 const newId = () => `p_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 
 export default function App() {
@@ -27,7 +27,7 @@ export default function App() {
   const [page, setPage] = useState("welcome"); // welcome | profile | questionnaire | summary
   const [currentSection, setCurrentSection] = useState(0);
   // Merkt, dass ein Abschnitt aus der Zusammenfassung heraus bearbeitet wird.
-  // Nach dem Speichern wird dann direkt dorthin zurueckgesprungen.
+  // Nach dem Speichern wird dann direkt dorthin zurückgesprungen.
   const [returnToSummary, setReturnToSummary] = useState(false);
   const [answersData, setAnswersData] = useState({ answers: {}, language: "de", updatedAt: null });
 
@@ -46,7 +46,7 @@ export default function App() {
     document.documentElement.dir = getDirection(language);
   }, [language]);
 
-  // Antworten des aktiven Profils laden, sobald sich die Auswahl aendert.
+  // Antworten des aktiven Profils laden, sobald sich die Auswahl ändert.
   useEffect(() => {
     if (activeProfileId) {
       setAnswersData(storage.loadAnswers(activeProfileId));
@@ -108,7 +108,7 @@ export default function App() {
     setPage("welcome");
   }, [language]);
 
-  // --- Antworten aendern + automatisch speichern (Autosave) ---
+  // --- Antworten ändern + automatisch speichern (Autosave) ---
   const handleAnswerChange = useCallback(
     (sectionId, fieldId, value) => {
       if (!activeProfileId) return;
@@ -125,7 +125,7 @@ export default function App() {
     [activeProfileId, language]
   );
 
-  // Kurzes Uebergabeprotokoll: haelt fest, wann welcher Datensatz wem gezeigt wurde.
+  // Kurzes Übergabeprotokoll: hält fest, wann welcher Datensatz wem gezeigt wurde.
   // Der QR-Code selbst wird bewusst nicht gespeichert.
   const recordHandover = useCallback(
     (entry) => {
@@ -135,7 +135,7 @@ export default function App() {
     [activeProfileId]
   );
 
-  // Sprung aus der Zusammenfassung zurueck in einen bestimmten Abschnitt.
+  // Sprung aus der Zusammenfassung zurück in einen bestimmten Abschnitt.
   const editSection = useCallback((index) => {
     setCurrentSection(index);
     setReturnToSummary(true);

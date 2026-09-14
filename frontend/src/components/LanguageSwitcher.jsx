@@ -1,7 +1,7 @@
 /*
   LanguageSwitcher.jsx
-  Sprachumschaltung zur Laufzeit ueber ein <select>.
-  Meldet die gewaehlte Sprache per onChange an die uebergeordnete Komponente (App).
+  Sprachumschaltung zur Laufzeit über ein <select>.
+  Meldet die gewählte Sprache per onChange an die übergeordnete Komponente (App).
 */
 import React from "react";
 import { getAvailableLanguages } from "../services/translationService.js";

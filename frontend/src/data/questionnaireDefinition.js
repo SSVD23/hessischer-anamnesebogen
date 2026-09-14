@@ -1,18 +1,18 @@
 /*
   questionnaireDefinition.js
   Zentrale, datengetriebene Definition des Anamnesebogens.
-  Die UI (QuestionnairePage / QuestionField) wird vollstaendig aus dieser Struktur erzeugt.
+  Die UI (QuestionnairePage / QuestionField) wird vollständig aus dieser Struktur erzeugt.
 
   Struktur:
     sections: [
       { id, fields: [ { id, type, required?, min?, max? } ] }
     ]
   - Labels/Optionen liegen NICHT hier, sondern in translations.js
-    (Schluessel: questions.<fieldId>.label bzw. questions.<fieldId>.options.<wert>,
+    (Schlüssel: questions.<fieldId>.label bzw. questions.<fieldId>.options.<wert>,
      Abschnittstitel: sections.<sectionId>).
-  - Unterstuetzte Feldtypen: text, textarea, select, checkbox (Mehrfachauswahl), number, date.
+  - Unterstützte Feldtypen: text, textarea, select, checkbox (Mehrfachauswahl), number, date.
 
-  Neue Frage/Abschnitt hinzufuegen = hier ergaenzen + Uebersetzungsschluessel anlegen.
+  Neue Frage/Abschnitt hinzufügen = hier ergänzen + Übersetzungsschlüssel anlegen.
 */
 
 export const SCHEMA_VERSION = "1.0";
@@ -33,9 +33,9 @@ export const questionnaireDefinition = {
     {
       id: "beschwerden",
       fields: [
-        // Zwei-Stufen-Auswahl: erst Koerperbereich, dann konkrete Beschwerde.
-        // Vorteil: die Werte sind bereits uebersetzt, es muss kein Freitext
-        // aus einer Fremdsprache uebersetzt werden.
+        // Zwei-Stufen-Auswahl: erst Körperbereich, dann konkrete Beschwerde.
+        // Vorteil: die Werte sind bereits übersetzt, es muss kein Freitext
+        // aus einer Fremdsprache übersetzt werden.
         {
           id: "bodyRegion",
           type: "select",
@@ -58,7 +58,7 @@ export const questionnaireDefinition = {
         },
         { id: "since", type: "text" },
         { id: "painLevel", type: "number", min: 0, max: 10 },
-        // Auffangfeld fuer seltene Faelle (bewusst als Freitext belassen).
+        // Auffangfeld für seltene Fälle (bewusst als Freitext belassen).
         { id: "complaintOther", type: "textarea" },
       ],
     },
@@ -80,9 +80,9 @@ export const questionnaireDefinition = {
       id: "medikamente",
       fields: [
         { id: "takesMedication", type: "select", options: ["yes", "no"] },
-        // Haeufige Dauermedikationen als Mehrfachauswahl, aus dem gleichen
-        // Grund wie bei commonAllergies: deckt den Grossteil der Faelle ab,
-        // ohne dass Freitext uebersetzt werden muss.
+        // Häufige Dauermedikationen als Mehrfachauswahl, aus dem gleichen
+        // Grund wie bei commonAllergies: deckt den Großteil der Fälle ab,
+        // ohne dass Freitext übersetzt werden muss.
         {
           id: "commonMedications",
           type: "checkbox",
@@ -98,13 +98,13 @@ export const questionnaireDefinition = {
       id: "allergien",
       fields: [
         { id: "hasAllergies", type: "select", options: ["yes", "no", "unknown"] },
-        // Die haeufigsten Allergien als Mehrfachauswahl. Damit wird ein grosser
-        // Teil der Faelle ohne uebersetzungsbeduerftigen Freitext abgedeckt.
+        // Die häufigsten Allergien als Mehrfachauswahl. Damit wird ein großer
+        // Teil der Fälle ohne übersetzungsbedürftigen Freitext abgedeckt.
         // Auswahl an den Kategorien der Studie zur Gesundheit Erwachsener in
-        // Deutschland (DEGS1) ausgerichtet. Laktose- und Glutenunvertraeglichkeit
+        // Deutschland (DEGS1) ausgerichtet. Laktose- und Glutenunverträglichkeit
         // sind bewusst nicht enthalten: Es handelt sich um Intoleranzen bzw. eine
-        // Autoimmunerkrankung und nicht um Allergien. Sie koennen weiterhin im
-        // Freitextfeld "Unvertraeglichkeiten" angegeben werden.
+        // Autoimmunerkrankung und nicht um Allergien. Sie können weiterhin im
+        // Freitextfeld "Unverträglichkeiten" angegeben werden.
         {
           id: "commonAllergies",
           type: "checkbox",
@@ -115,9 +115,9 @@ export const questionnaireDefinition = {
           ],
         },
         // Eigene, von den Allergien getrennte Kategorie: Laktose- und
-        // Glutenunvertraeglichkeit sind keine Allergien (siehe oben), werden
-        // aber haeufig genug angegeben, um eine eigene Mehrfachauswahl zu
-        // rechtfertigen. "Sonstiges" bleibt ueber das Freitextfeld abgedeckt.
+        // Glutenunverträglichkeit sind keine Allergien (siehe oben), werden
+        // aber häufig genug angegeben, um eine eigene Mehrfachauswahl zu
+        // rechtfertigen. "Sonstiges" bleibt über das Freitextfeld abgedeckt.
         {
           id: "commonIntolerances",
           type: "checkbox",
@@ -131,8 +131,8 @@ export const questionnaireDefinition = {
       fields: [
         { id: "hasOperations", type: "select", options: ["yes", "no"] },
         // Wiederholbare Gruppe statt einzelnem Freitextfeld: pro Operation ein
-        // Feld fuer die Bezeichnung und eines fuer die Jahreszahl, damit die
-        // Angaben chronologisch statt als unstrukturierte Aufzaehlung erfasst
+        // Feld für die Bezeichnung und eines für die Jahreszahl, damit die
+        // Angaben chronologisch statt als unstrukturierte Aufzählung erfasst
         // werden. Wert ist ein Array aus { description, year }.
         {
           id: "operationList",
@@ -149,7 +149,7 @@ export const questionnaireDefinition = {
       fields: [
         { id: "smoking", type: "select", options: ["never", "former", "occasionally", "regularly"] },
         { id: "alcohol", type: "select", options: ["never", "occasionally", "weekly", "daily"] },
-        // Nur sichtbar, wenn im Abschnitt "Stammdaten" gender = female gewaehlt wurde.
+        // Nur sichtbar, wenn im Abschnitt "Stammdaten" gender = female gewählt wurde.
         {
           id: "pregnant",
           type: "select",
@@ -169,8 +169,8 @@ export const questionnaireDefinition = {
   ],
 };
 
-// Fachrichtungen. Umgesetzt ist ausschliesslich die Allgemeinmedizin;
-// die weiteren Eintraege sind angedeutet, um die Erweiterbarkeit zu zeigen.
+// Fachrichtungen. Umgesetzt ist ausschließlich die Allgemeinmedizin;
+// die weiteren Einträge sind angedeutet, um die Erweiterbarkeit zu zeigen.
 export const SPECIALTIES = [
   { id: "generalPractice", available: true },
   { id: "internalMedicine", available: false },
@@ -181,8 +181,8 @@ export const TOTAL_SECTIONS = questionnaireDefinition.sections.length;
 
 // Krankenkassen zur Auswahl (feste Schreibweise verhindert Duplikate/Tippfehler
 // wie "TK" vs. "Techniker" vs. "techniker krankenkasse"). "other" blendet ein
-// Freitextfeld fuer nicht gelistete Kassen ein. Die Markennamen selbst werden
-// nicht uebersetzt (Eigennamen); nur "private" und "other" sind sprachabhaengig,
+// Freitextfeld für nicht gelistete Kassen ein. Die Markennamen selbst werden
+// nicht übersetzt (Eigennamen); nur "private" und "other" sind sprachabhängig,
 // siehe translations.js unter profile.insurers.
 export const INSURERS = [
   { id: "aok", label: "AOK" },

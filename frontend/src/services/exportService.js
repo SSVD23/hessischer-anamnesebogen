@@ -1,12 +1,13 @@
 /*
   exportService.js
-  Erzeugt aus den gespeicherten Antworten ein strukturiertes Export-JSON
-  und loest den Datei-Download im Browser aus (Blob + <a download>).
+  Erzeugt aus den gespeicherten Antworten ein strukturiertes Export-JSON,
+  das als Grundlage für die QR-Code-Übergabe dient. Ein Datei-Download
+  ist bewusst nicht implementiert (vgl. Kommentar bei downloadJson unten).
 
-  Das Export-Objekt enthaelt laut Anforderung:
+  Das Export-Objekt enthält laut Anforderung:
     - schemaVersion
     - language (Sprache der letzten Bearbeitung)
-    - profile (Metadaten: Name, optional Geburtsjahr)
+    - profile (Metadaten: id, Name, Geburtsjahr, Versichertennummer, Krankenkasse)
     - savedAt (Zeitstempel der letzten Speicherung)
     - exportedAt (Zeitstempel des Exports)
     - answers (nach Abschnitten und Fragen strukturiert)
@@ -29,7 +30,7 @@ export function buildExport(profile, answersData, options = {}) {
       insuranceNumber: profile.insuranceNumber || null,
       insurer: profile.insurer || null,
     },
-    // Empfaenger der Uebergabe (wem wurde der Datensatz gezeigt/uebergeben).
+    // Empfänger der Übergabe (wem wurde der Datensatz gezeigt/übergeben).
     recipient: options.recipient || null,
     savedAt: answersData.updatedAt || null,
     exportedAt: new Date().toISOString(),
@@ -38,17 +39,17 @@ export function buildExport(profile, answersData, options = {}) {
 }
 
 /*
-  Anonymisierter Datensatz fuer eine freiwillige Datenspende an ein
+  Anonymisierter Datensatz für eine freiwillige Datenspende an ein
   Datenintegrationszentrum (DIZ).
 
   Bewusst NICHT enthalten: Name, Vorname, exaktes Geburtsdatum,
-  Versichertennummer, Krankenkasse und alle Freitextfelder (diese koennten
-  unbeabsichtigt Rueckschluesse auf die Person zulassen).
-  Enthalten sind ausschliesslich Geburtsjahr, Postleitzahl-Ebene und die
+  Versichertennummer, Krankenkasse und alle Freitextfelder (diese könnten
+  unbeabsichtigt Rückschlüsse auf die Person zulassen).
+  Enthalten sind ausschließlich Geburtsjahr, Postleitzahl-Ebene und die
   strukturierten Auswahlwerte.
 
-  Hinweis: Die Uebertragung ist im Prototyp nur konzeptionell vorgesehen
-  (per TLS an einen fest hinterlegten Endpunkt) und wird nicht ausgefuehrt.
+  Hinweis: Die Übertragung ist im Prototyp nur konzeptionell vorgesehen
+  (per TLS an einen fest hinterlegten Endpunkt) und wird nicht ausgeführt.
 */
 export const DONATION_ENDPOINT = "https://diz.example-university.de/api/v1/anamnesis";
 
@@ -82,13 +83,13 @@ export function buildDonation(profile, answersData, options = {}) {
   };
 }
 
-// Loest den Download der JSON-Datei aus.
+// Löst den Download der JSON-Datei aus.
 //
-// Auf Ruecksprache mit dem Erstpruefer deaktiviert: Der lokale Datei-Export
-// ist fuer die Datenschutz-Argumentation der Arbeit nicht relevant und
-// hinterlaesst zudem eine unverschluesselte Kopie der Anamnesedaten im
-// Downloads-Ordner des Geraets. Funktion bleibt auskommentiert erhalten,
-// `buildExport` selbst wird weiterhin von der QR-Uebergabe verwendet.
+// Auf Rücksprache mit dem Erstprüfer deaktiviert: Der lokale Datei-Export
+// ist für die Datenschutz-Argumentation der Arbeit nicht relevant und
+// hinterlässt zudem eine unverschlüsselte Kopie der Anamnesedaten im
+// Downloads-Ordner des Geräts. Funktion bleibt auskommentiert erhalten,
+// `buildExport` selbst wird weiterhin von der QR-Übergabe verwendet.
 //
 // export function downloadJson(profile, answersData) {
 //   const payload = buildExport(profile, answersData);

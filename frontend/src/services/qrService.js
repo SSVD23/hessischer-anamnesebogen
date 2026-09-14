@@ -1,28 +1,28 @@
 /*
   qrService.js
-  Erzeugt aus dem Uebergabe-Datensatz einen QR-Code als Data-URL.
+  Erzeugt aus dem Übergabe-Datensatz einen QR-Code als Data-URL.
 
-  Konzept der Uebergabe an die Praxis:
-  Der Datensatz verlaesst das Geraet NICHT ueber das Netzwerk. Er wird als
+  Konzept der Übergabe an die Praxis:
+  Der Datensatz verlässt das Gerät NICHT über das Netzwerk. Er wird als
   QR-Code auf dem Display angezeigt und in der Praxis abgescannt
-  (Sender und Empfaenger arbeiten unmittelbar auf einer Ebene, es ist kein
+  (Sender und Empfänger arbeiten unmittelbar auf einer Ebene, es ist kein
   Zwischendienst und keine zentrale Datensammlung beteiligt).
 
   Der Code wird bei Bedarf jederzeit neu erzeugt; eine Speicherung ist nicht
-  erforderlich. Lediglich ein kurzes Uebergabeprotokoll (Zeitstempel und
-  Empfaenger) wird lokal vorgehalten, damit nachvollziehbar bleibt, wann
+  erforderlich. Lediglich ein kurzes Übergabeprotokoll (Zeitstempel und
+  Empfänger) wird lokal vorgehalten, damit nachvollziehbar bleibt, wann
   welcher Datensatz wem gezeigt wurde.
 */
 
 import QRCode from "qrcode";
 
 // Maximale Nutzlast eines QR-Codes bei mittlerer Fehlerkorrektur (Version 40).
-// Darueber hinaus laesst sich der Code nicht mehr zuverlaessig erzeugen bzw. scannen.
+// Darüber hinaus lässt sich der Code nicht mehr zuverlässig erzeugen bzw. scannen.
 export const QR_PAYLOAD_LIMIT = 2200;
 
 /**
  * Erzeugt den QR-Code zu einem Datensatz.
- * @param {object} payload  Der zu uebergebende Datensatz (wird als JSON kodiert).
+ * @param {object} payload  Der zu übergebende Datensatz (wird als JSON kodiert).
  * @returns {Promise<{dataUrl: string, size: number}>}
  */
 export async function buildQrCode(payload) {

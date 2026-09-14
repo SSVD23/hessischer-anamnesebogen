@@ -3,14 +3,14 @@
   Freiwillige, anonymisierte Datenspende an ein Datenintegrationszentrum (DIZ).
 
   WICHTIG: Diese Funktion ist im Prototyp bewusst nur KONZEPTIONELL umgesetzt.
-  Es wird nichts uebertragen. Der Dialog zeigt transparent,
-    - welcher Datensatz uebergeben wuerde,
+  Es wird nichts übertragen. Der Dialog zeigt transparent,
+    - welcher Datensatz übergeben würde,
     - welche Angaben zuvor entfernt werden,
-    - ueber welchen Weg die Uebertragung erfolgen wuerde
+    - über welchen Weg die Übertragung erfolgen würde
       (TLS-gesicherte Verbindung an einen fest hinterlegten Endpunkt).
 
-  Zweck der Spende: Aus vielen anonymen Datensaetzen laesst sich ein zeitnahes
-  regionales Lagebild ableiten (z. B. Haeufung von Infekten oder Allergien).
+  Zweck der Spende: Aus vielen anonymen Datensätzen lässt sich ein zeitnahes
+  regionales Lagebild ableiten (z. B. Häufung von Infekten oder Allergien).
 */
 import React, { useState, useEffect } from "react";
 import { buildDonation, DONATION_ENDPOINT } from "../services/exportService.js";

@@ -3,8 +3,8 @@
   Generische, wiederverwendbare Frage-Komponente.
   Rendert je nach field.type das passende Eingabeelement:
   text, textarea, number, date, select (Dropdown), checkbox (Mehrfachauswahl).
-  Labels/Optionen werden ueber den Translator (t) aus translations.js geladen.
-  Barrierefreiheit: <label htmlFor>, aria-invalid, fieldset/legend fuer Checkbox-Gruppen.
+  Labels/Optionen werden über den Translator (t) aus translations.js geladen.
+  Barrierefreiheit: <label htmlFor>, aria-invalid, fieldset/legend für Checkbox-Gruppen.
 */
 import React from "react";
 
@@ -12,12 +12,12 @@ export function QuestionField({ field, value, error, onChange, t, sectionAnswers
   const fieldId = `q-${field.id}`;
   const label = t(`questions.${field.id}.label`);
   const help = t(`questions.${field.id}.help`);
-  const hasHelp = help !== `questions.${field.id}.help`; // Schluessel unaufgeloest => kein Hilfetext
+  const hasHelp = help !== `questions.${field.id}.help`; // Schlüssel unaufgelöst => kein Hilfetext
   const inputClass = error ? "input has-error" : "input";
 
-  // Abhaengiges Auswahlfeld: die Optionen ergeben sich aus der Antwort eines
-  // vorgelagerten Feldes (z. B. Koerperbereich -> konkrete Beschwerde).
-  // Dadurch bleibt die Eingabe eine uebersetzte Auswahl statt Freitext.
+  // Abhängiges Auswahlfeld: die Optionen ergeben sich aus der Antwort eines
+  // vorgelagerten Feldes (z. B. Körperbereich -> konkrete Beschwerde).
+  // Dadurch bleibt die Eingabe eine übersetzte Auswahl statt Freitext.
   if (field.type === "dependentSelect") {
     const parentValue = sectionAnswers[field.dependsOn];
     const options = (parentValue && field.optionsBy[parentValue]) || [];

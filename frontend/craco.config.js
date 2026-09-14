@@ -1,147 +1,41 @@
-// craco.config.js
+/*
+  craco.config.js
+
+  CRACO (Create React App Configuration Override) erlaubt es, die von
+  react-scripts gekapselte Webpack-Konfiguration anzupassen, ohne das Projekt
+  per "eject" dauerhaft aufzubrechen.
+
+  Im Prototyp werden genau drei Anpassungen vorgenommen:
+    1. Pfad-Alias "@" für den Ordner src/, damit Importe nicht über lange
+       relative Pfade (../../..) laufen müssen.
+    2. ESLint bleibt aktiviert; die Regeln stehen ausschließlich in
+       .eslintrc.json ("root": true), sodass Konfigurationen in übergeordneten
+       Ordnern ignoriert werden.
+    3. watchOptions: Ordner, die sich während der Entwicklung nicht ändern,
+       werden von der Dateiüberwachung ausgenommen. Das reduziert die
+       CPU-Last beim Hot Reload spürbar.
+*/
 const path = require("path");
-require("dotenv").config();
 
-// Check if we're in development/preview mode (not production build)
-// Craco sets NODE_ENV=development for start, NODE_ENV=production for build
-const isDevServer = process.env.NODE_ENV !== "production";
-
-// Environment variable overrides
-const config = {
-  enableHealthCheck: process.env.ENABLE_HEALTH_CHECK === "true",
-};
-
-function makeDevServerV5Compatible(devServerConfig) {
-  const {
-    https,
-    onAfterSetupMiddleware,
-    onBeforeSetupMiddleware,
-    onListening,
-    setupMiddlewares,
-    ...compatibleConfig
-  } = devServerConfig;
-
-  compatibleConfig.server =
-    typeof https === "object"
-      ? { type: "https", options: https }
-      : https
-        ? "https"
-        : "http";
-  compatibleConfig.headers = {
-    ...compatibleConfig.headers,
-    "Cross-Origin-Resource-Policy": "same-origin",
-  };
-
-  if (onBeforeSetupMiddleware || setupMiddlewares) {
-    compatibleConfig.setupMiddlewares = (middlewares, devServer) => {
-      if (onBeforeSetupMiddleware) {
-        onBeforeSetupMiddleware(devServer);
-      }
-
-      return setupMiddlewares
-        ? setupMiddlewares(middlewares, devServer)
-        : middlewares;
-    };
-  }
-
-  compatibleConfig.onListening = (devServer) => {
-    devServer.close ??= (callback) => devServer.stopCallback(callback);
-
-    if (onListening) {
-      onListening(devServer);
-    }
-    if (onAfterSetupMiddleware) {
-      onAfterSetupMiddleware(devServer);
-    }
-  };
-
-  return compatibleConfig;
-}
-
-// Conditionally load health check modules only if enabled
-let WebpackHealthPlugin;
-let setupHealthEndpoints;
-let healthPluginInstance;
-
-if (config.enableHealthCheck) {
-  WebpackHealthPlugin = require("./plugins/health-check/webpack-health-plugin");
-  setupHealthEndpoints = require("./plugins/health-check/health-endpoints");
-  healthPluginInstance = new WebpackHealthPlugin();
-}
-
-let webpackConfig = {
+module.exports = {
   eslint: {
-    // Die ESLint-Regeln stehen ausschliesslich in .eslintrc.json ("root": true).
-    // Dadurch werden Konfigurationen in uebergeordneten Ordnern ignoriert.
     enable: true,
   },
   webpack: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      "@": path.resolve(__dirname, "src"),
     },
     configure: (webpackConfig) => {
-
-      // Add ignored patterns to reduce watched directories
-        webpackConfig.watchOptions = {
-          ...webpackConfig.watchOptions,
-          ignored: [
-            '**/node_modules/**',
-            '**/.git/**',
-            '**/build/**',
-            '**/dist/**',
-            '**/coverage/**',
-            '**/public/**',
+      webpackConfig.watchOptions = {
+        ...webpackConfig.watchOptions,
+        ignored: [
+          "**/node_modules/**",
+          "**/.git/**",
+          "**/build/**",
+          "**/public/**",
         ],
       };
-
-      // Add health check plugin to webpack if enabled
-      if (config.enableHealthCheck && healthPluginInstance) {
-        webpackConfig.plugins.push(healthPluginInstance);
-      }
       return webpackConfig;
     },
   },
 };
-
-webpackConfig.devServer = (devServerConfig) => {
-  // Add health check endpoints if enabled
-  if (config.enableHealthCheck && setupHealthEndpoints && healthPluginInstance) {
-    const originalSetupMiddlewares = devServerConfig.setupMiddlewares;
-
-    devServerConfig.setupMiddlewares = (middlewares, devServer) => {
-      // Call original setup if exists
-      if (originalSetupMiddlewares) {
-        middlewares = originalSetupMiddlewares(middlewares, devServer);
-      }
-
-      // Setup health endpoints
-      setupHealthEndpoints(devServer, healthPluginInstance);
-
-      return middlewares;
-    };
-  }
-
-  return devServerConfig;
-};
-
-// Wrap with visual edits (automatically adds babel plugin, dev server, and overlay in dev mode)
-if (isDevServer) {
-  try {
-    const { withVisualEdits } = require("@emergentbase/visual-edits/craco");
-    webpackConfig = withVisualEdits(webpackConfig);
-  } catch (err) {
-    if (err.code === 'MODULE_NOT_FOUND' && err.message.includes('@emergentbase/visual-edits/craco')) {
-      console.warn(
-        "[visual-edits] @emergentbase/visual-edits not installed — visual editing disabled."
-      );
-    } else {
-      throw err;
-    }
-  }
-}
-
-const configureDevServer = webpackConfig.devServer;
-webpackConfig.devServer = (devServerConfig) =>
-  makeDevServerV5Compatible(configureDevServer(devServerConfig));
-
-module.exports = webpackConfig;

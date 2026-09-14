@@ -1,6 +1,6 @@
 /*
   SectionNavigation.jsx
-  Vor-/Zurueck-Navigation zwischen den Abschnitten des Anamnesebogens.
+  Vor-/Zurück-Navigation zwischen den Abschnitten des Anamnesebogens.
   Im letzten Abschnitt wird aus "Weiter" -> "Zur Zusammenfassung".
 */
 import React from "react";

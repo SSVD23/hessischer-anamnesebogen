@@ -1,14 +1,14 @@
 /*
   translationService.js
-  Zentraler Zugriff auf die Uebersetzungen.
-  t(key, language, vars) loest einen Punkt-Pfad (z. B. "questions.gender.label") auf.
-  Fallback-Reihenfolge: gewaehlte Sprache -> Englisch -> Deutsch -> Schluessel selbst.
-  So bleiben unvollstaendig uebersetzte Sprachen (ar, tr, hi, fr, es) nutzbar.
+  Zentraler Zugriff auf die Übersetzungen.
+  t(key, language, vars) löst einen Punkt-Pfad (z. B. "questions.gender.label") auf.
+  Fallback-Reihenfolge: gewählte Sprache -> Englisch -> Deutsch -> Schlüssel selbst.
+  So bleiben unvollständig übersetzte Sprachen (ar, tr, hi, fr, es) nutzbar.
 */
 
 import { translations, availableLanguages } from "../data/translations.js";
 
-// Punkt-Pfad in einem verschachtelten Objekt aufloesen.
+// Punkt-Pfad in einem verschachtelten Objekt auflösen.
 function resolve(obj, path) {
   return path.split(".").reduce((acc, part) => {
     if (acc && Object.prototype.hasOwnProperty.call(acc, part)) return acc[part];
@@ -20,7 +20,7 @@ export function t(key, language = "de", vars) {
   let value = resolve(translations[language], key);
   if (value === undefined) value = resolve(translations.en, key);
   if (value === undefined) value = resolve(translations.de, key);
-  if (value === undefined) return key; // Notfall: Schluessel sichtbar machen
+  if (value === undefined) return key; // Notfall: Schlüssel sichtbar machen
 
   // Platzhalter {name} ersetzen (nur bei Strings).
   if (typeof value === "string" && vars) {
@@ -31,7 +31,7 @@ export function t(key, language = "de", vars) {
   return value;
 }
 
-// Erzeugt eine an eine Sprache gebundene t-Funktion (bequem fuer Komponenten).
+// Erzeugt eine an eine Sprache gebundene t-Funktion (bequem für Komponenten).
 export function makeTranslator(language) {
   return (key, vars) => t(key, language, vars);
 }

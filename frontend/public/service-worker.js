@@ -1,12 +1,12 @@
 /*
   service-worker.js
-  Minimaler Service Worker fuer die "installierbare" PWA-Nutzung (Offline-Faehigkeit).
+  Minimaler Service Worker für die "installierbare" PWA-Nutzung (Offline-Fähigkeit).
   Strategie:
     - Navigationsanfragen (HTML): network-first mit Fallback auf den Cache / index.html
-      -> immer moeglichst aktuelle App, aber offline weiterhin ladbar.
+      -> immer möglichst aktuelle App, aber offline weiterhin ladbar.
     - Statische Assets (JS/CSS/Bilder, gehashte Dateinamen): cache-first mit Netzwerk-Fallback
-      -> schnelles, offline-faehiges Laden. Neue Builds haben neue Dateinamen -> kein veralteter Code.
-  skipWaiting + clients.claim sorgen dafuer, dass Updates sofort aktiv werden.
+      -> schnelles, offline-fähiges Laden. Neue Builds haben neue Dateinamen -> kein veralteter Code.
+  skipWaiting + clients.claim sorgen dafür, dass Updates sofort aktiv werden.
 */
 const CACHE = "anamnesis-cache-v1";
 const APP_SHELL = ["./", "./index.html", "./manifest.json"];

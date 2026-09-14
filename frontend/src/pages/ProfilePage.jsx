@@ -1,8 +1,8 @@
 /*
   ProfilePage.jsx
-  Profilverwaltung: erstellen, auswaehlen, umbenennen, loeschen.
-  Ausserdem "Gefahrenzone" zum vollstaendigen Loeschen aller lokalen Daten.
-  Loesch-Aktionen werden ueber den wiederverwendbaren ConfirmDialog bestaetigt.
+  Profilverwaltung: erstellen, auswählen, umbenennen, löschen.
+  Außerdem "Gefahrenzone" zum vollständigen Löschen aller lokalen Daten.
+  Lösch-Aktionen werden über den wiederverwendbaren ConfirmDialog bestätigt.
 */
 import React, { useState } from "react";
 import { SPECIALTIES, INSURERS } from "../data/questionnaireDefinition.js";
@@ -25,7 +25,7 @@ export function ProfilePage({
   const [insuranceNumber, setInsuranceNumber] = useState("");
   const [insurerId, setInsurerId] = useState("");
   const [insurerOther, setInsurerOther] = useState("");
-  const [pendingDelete, setPendingDelete] = useState(null); // Profil, das geloescht werden soll
+  const [pendingDelete, setPendingDelete] = useState(null); // Profil, das gelöscht werden soll
   const [clearAllOpen, setClearAllOpen] = useState(false);
 
   const handleCreate = (e) => {

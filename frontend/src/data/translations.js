@@ -1,16 +1,16 @@
 /*
   translations.js
-  Zentrale Uebersetzungsstruktur fuer die Internationalisierung.
-  Aufbau: translations[sprachcode][schluessel...] mit verschachtelten Objekten.
-  Alle sieben Sprachen (de, en, ar, tr, hi, fr, es) sind vollstaendig uebersetzt,
+  Zentrale Übersetzungsstruktur für die Internationalisierung.
+  Aufbau: translations[sprachcode][schlüssel...] mit verschachtelten Objekten.
+  Alle sieben Sprachen (de, en, ar, tr, hi, fr, es) sind vollständig übersetzt,
   inklusive Fragenlabels und Auswahloptionen.
-  Fehlende Schluessel werden im translationService automatisch auf en -> de zurueckgefuehrt.
+  Fehlende Schlüssel werden im translationService automatisch auf en -> de zurückgeführt.
 
-  Neue Sprache hinzufuegen = neuen Sprachcode-Block ergaenzen + Eintrag in availableLanguages.
+  Neue Sprache hinzufügen = neuen Sprachcode-Block ergänzen + Eintrag in availableLanguages.
 */
 
 // Gemeinsame Fragen-Definition (Labels + Optionen) je Sprache als Hilfsfunktion,
-// damit die grosse questions-Struktur nicht dupliziert und leicht pflegbar bleibt.
+// damit die große questions-Struktur nicht dupliziert und leicht pflegbar bleibt.
 function q(labels) {
   return labels;
 }
@@ -433,7 +433,7 @@ export const translations = {
     }),
   },
 
-  // ---------------------------------------------------------------- Tuerkisch
+  // ---------------------------------------------------------------- Türkisch
   tr: {
     app: { title: "Dijital Anamnez", tagline: "Muayeneden önce hazırlık" },
     ui: { language: "Dil", autosaved: "Otomatik kaydedildi", disclaimerShort: "Bir bitirme tezi prototipi – tıbbi cihaz değildir, tıbbi tavsiye yerine geçmez." },
@@ -679,7 +679,7 @@ export const translations = {
     }),
   },
 
-  // ---------------------------------------------------------------- Franzoesisch
+  // ---------------------------------------------------------------- Französisch
   fr: {
     app: { title: "Anamnèse numérique", tagline: "Préparation avant la consultation" },
     ui: { language: "Langue", autosaved: "Enregistré automatiquement", disclaimerShort: "Prototype de mémoire de licence – pas un dispositif médical, ne remplace pas un avis médical." },
@@ -926,7 +926,7 @@ export const translations = {
   },
 };
 
-// Liste der verfuegbaren Sprachen (Code + native Bezeichnung + Textrichtung).
+// Liste der verfügbaren Sprachen (Code + native Bezeichnung + Textrichtung).
 export const availableLanguages = [
   { code: "de", label: "Deutsch", dir: "ltr" },
   { code: "en", label: "English", dir: "ltr" },

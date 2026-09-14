@@ -1,13 +1,13 @@
 /*
   global.css
-  Vanilla-CSS-Grundgestaltung fuer den Anamnese-Prototyp.
-  Mobile-first, ruhige klinische Optik (Teal + neutrale Grautoene),
-  sichtbare Fokuszustaende (Barrierefreiheit) und eigener @media print Block.
+  Vanilla-CSS-Grundgestaltung für den Anamnese-Prototyp.
+  Mobile-first, ruhige klinische Optik (Teal + neutrale Grautöne),
+  sichtbare Fokuszustände (Barrierefreiheit) und eigener @media print Block.
 */
 
-/* Schriftarten werden lokal ausgeliefert (siehe fonts.css). Ein Abruf ueber
-   Google Fonts wuerde bei jedem Seitenaufruf die IP-Adresse des Endgeraets an
-   einen Drittanbieter uebermitteln und dem Grundsatz widersprechen, dass die
+/* Schriftarten werden lokal ausgeliefert (siehe fonts.css). Ein Abruf über
+   Google Fonts würde bei jedem Seitenaufruf die IP-Adresse des Endgeräts an
+   einen Drittanbieter übermitteln und dem Grundsatz widersprechen, dass die
    Anwendung keine Verbindung zu Dritten aufbaut. */
 @import url("./fonts.css");
 
@@ -535,7 +535,7 @@ a {
   color: var(--teal-dark);
 }
 
-/* Nur fuer Screenreader sichtbar (visuell versteckt, aber vorlesbar) */
+/* Nur für Screenreader sichtbar (visuell versteckt, aber vorlesbar) */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -612,7 +612,7 @@ a {
 }
 
 
-/* --- QR-Uebergabe und Datenspende ------------------------------------- */
+/* --- QR-Übergabe und Datenspende ------------------------------------- */
 .qr-box {
   display: flex;
   flex-direction: column;

@@ -1,8 +1,8 @@
 /*
   SummaryView.jsx
   Reine Darstellung der Zusammenfassung: alle Antworten nach Abschnitten gruppiert.
-  Formatiert die gespeicherten Werte lesbar (Optionen -> Uebersetzung, Arrays -> Liste).
-  Enthaelt pro Abschnitt einen "Bearbeiten"-Button (im Druck ausgeblendet).
+  Formatiert die gespeicherten Werte lesbar (Optionen -> Übersetzung, Arrays -> Liste).
+  Enthält pro Abschnitt einen "Bearbeiten"-Button (im Druck ausgeblendet).
 */
 import React from "react";
 import { questionnaireDefinition } from "../data/questionnaireDefinition.js";

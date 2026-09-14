@@ -1,8 +1,8 @@
 /*
   ConfirmDialog.jsx
-  Kleiner, wiederverwendbarer Bestaetigungsdialog (Sicherheitsabfrage) in Vanilla-Umsetzung.
-  Wird fuer "Profil loeschen" und "Alle Daten loeschen" verwendet.
-  Schliesst bei Klick auf den Hintergrund oder "Abbrechen".
+  Kleiner, wiederverwendbarer Bestätigungsdialog (Sicherheitsabfrage) in Vanilla-Umsetzung.
+  Wird für "Profil löschen" und "Alle Daten löschen" verwendet.
+  Schließt bei Klick auf den Hintergrund oder "Abbrechen".
 */
 import React, { useEffect } from "react";
 

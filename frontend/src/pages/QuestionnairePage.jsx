@@ -1,10 +1,10 @@
 /*
   QuestionnairePage.jsx
   Mehrseitiger Anamnesebogen: zeigt jeweils einen Abschnitt an, erzeugt die Felder
-  datengetrieben aus questionnaireDefinition und rendert sie ueber QuestionField.
-  - Fortschrittsanzeige ueber ProgressIndicator
-  - Vor/Zurueck ueber SectionNavigation
-  - Validierung des aktuellen Abschnitts vor dem Weiterblaettern (validationService)
+  datengetrieben aus questionnaireDefinition und rendert sie über QuestionField.
+  - Fortschrittsanzeige über ProgressIndicator
+  - Vor/Zurück über SectionNavigation
+  - Validierung des aktuellen Abschnitts vor dem Weiterblättern (validationService)
   Das automatische Speichern erfolgt zentral in App (onAnswerChange) -> effizient pro Eingabe.
 */
 import React, { useState } from "react";
@@ -45,9 +45,9 @@ export function QuestionnairePage({
   });
 
   const goNext = () => {
-    // Aktuellen Abschnitt validieren, bevor weitergeblaettert wird.
-    // Nur sichtbare Felder werden geprueft (visibleIf-Felder koennen sonst
-    // faelschlich als fehlend gelten, obwohl sie gar nicht angezeigt werden).
+    // Aktuellen Abschnitt validieren, bevor weitergeblättert wird.
+    // Nur sichtbare Felder werden geprüft (visibleIf-Felder können sonst
+    // fälschlich als fehlend gelten, obwohl sie gar nicht angezeigt werden).
     const sectionErrors = validateSection({ ...section, fields: visibleFields }, sectionAnswers, t);
     if (hasErrors(sectionErrors)) {
       setErrors(sectionErrors);
@@ -69,8 +69,8 @@ export function QuestionnairePage({
     }
     setErrors({});
     setAnnounce("");
-    // Wurde dieser Abschnitt aus der Zusammenfassung heraus geoeffnet,
-    // springt die Anwendung direkt dorthin zurueck (kein erneuter Durchlauf).
+    // Wurde dieser Abschnitt aus der Zusammenfassung heraus geöffnet,
+    // springt die Anwendung direkt dorthin zurück (kein erneuter Durchlauf).
     if (returnToSummary && onReturnToSummary) {
       onReturnToSummary();
       return;

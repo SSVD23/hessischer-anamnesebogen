@@ -1,9 +1,9 @@
 /*
   fonts.css
   Lokal eingebundene Schriftarten (Manrope, IBM Plex Sans).
-  Bewusst selbst gehostet statt ueber Google Fonts geladen: Ein externer
-  Schriftabruf wuerde bei jedem Seitenaufruf die IP-Adresse des Endgeraets
-  an einen Drittanbieter uebermitteln. Die Anwendung baut dagegen zu keinem
+  Bewusst selbst gehostet statt über Google Fonts geladen: Ein externer
+  Schriftabruf würde bei jedem Seitenaufruf die IP-Adresse des Endgeräts
+  an einen Drittanbieter übermitteln. Die Anwendung baut dagegen zu keinem
   Zeitpunkt eine Verbindung zu Dritten auf.
 */
 

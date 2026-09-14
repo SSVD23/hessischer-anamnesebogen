@@ -1,8 +1,8 @@
 /*
   ProfileSelector.jsx
   Darstellung und Verwaltung der Profil-Liste:
-  auswaehlen, umbenennen und loeschen. Das Erstellen liegt in der ProfilePage.
-  Loeschen loest ueber onRequestDelete die Sicherheitsabfrage in der Seite aus.
+  auswählen, umbenennen und löschen. Das Erstellen liegt in der ProfilePage.
+  Löschen löst über onRequestDelete die Sicherheitsabfrage in der Seite aus.
 */
 import React from "react";
 

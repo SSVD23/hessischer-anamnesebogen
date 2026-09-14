@@ -3,10 +3,10 @@
   Aktionsleiste der Zusammenfassung: Druck-/PDF-Ausgabe (window.print) und JSON-Export.
   Der eigentliche Export wird an den exportService delegiert.
 
-  Auf Ruecksprache mit dem Erstpruefer deaktiviert: Fuer die Datenschutz-
+  Auf Rücksprache mit dem Erstprüfer deaktiviert: Für die Datenschutz-
   Argumentation der Arbeit sind der lokale Datei-Export (JSON) und der
   Druck/PDF-Weg nicht relevant, da beide keinen Bezug zur eigentlichen
-  Uebergabe (QR-Code) oder Datenspende haben. Der Code bleibt zur
+  Übergabe (QR-Code) oder Datenspende haben. Der Code bleibt zur
   Nachvollziehbarkeit auskommentiert erhalten.
 */
 import React from "react";

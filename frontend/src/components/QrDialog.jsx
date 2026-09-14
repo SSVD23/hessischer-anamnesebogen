@@ -1,15 +1,15 @@
 /*
   QrDialog.jsx
-  Uebergabe des Anamnesedatensatzes an eine Praxis mittels QR-Code.
+  Übergabe des Anamnesedatensatzes an eine Praxis mittels QR-Code.
 
   Ablauf:
-    1. Empfaenger auswaehlen (wem wird der Code gezeigt).
+    1. Empfänger auswählen (wem wird der Code gezeigt).
     2. QR-Code wird erzeugt und auf dem Display angezeigt.
     3. Die Praxis scannt den Code direkt vom Bildschirm.
 
-  Es findet KEINE Netzwerkuebertragung statt. Der Code wird nicht gespeichert,
-  sondern bei Bedarf jederzeit neu erzeugt (jeder Aufruf traegt einen eigenen
-  Zeitstempel). Lokal wird lediglich ein kurzes Uebergabeprotokoll gefuehrt.
+  Es findet KEINE Netzwerkübertragung statt. Der Code wird nicht gespeichert,
+  sondern bei Bedarf jederzeit neu erzeugt (jeder Aufruf trägt einen eigenen
+  Zeitstempel). Lokal wird lediglich ein kurzes Übergabeprotokoll geführt.
 */
 import React, { useState, useEffect, useCallback } from "react";
 import { buildExport } from "../services/exportService.js";
@@ -20,8 +20,8 @@ const RECIPIENTS = ["practice", "specialist", "hospital", "other"];
 
 export function QrDialog({ open, onClose, profile, answersData, t, onHandover }) {
   const [recipient, setRecipient] = useState("practice");
-  // Freiwilliger Klarname zusaetzlich zur Kategorie (z. B. "Hausarztpraxis
-  // Mueller"), damit im Verlauf nachvollziehbar bleibt, wem konkret ein
+  // Freiwilliger Klarname zusätzlich zur Kategorie (z. B. "Hausarztpraxis
+  // Müller"), damit im Verlauf nachvollziehbar bleibt, wem konkret ein
   // Datensatz gezeigt wurde - nicht nur, welcher Art von Stelle.
   const [recipientName, setRecipientName] = useState("");
   const [qr, setQr] = useState(null);
@@ -29,7 +29,7 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
   const [busy, setBusy] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
 
-  // Escape schliesst den Dialog (Tastaturbedienung).
+  // Escape schließt den Dialog (Tastaturbedienung).
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (e) => e.key === "Escape" && onClose();
@@ -37,7 +37,7 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  // Beim Schliessen zuruecksetzen, damit beim naechsten Oeffnen neu erzeugt wird.
+  // Beim Schließen zurücksetzen, damit beim nächsten Öffnen neu erzeugt wird.
   useEffect(() => {
     if (!open) {
       setQr(null);
@@ -56,7 +56,7 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
       });
       const result = await buildQrCode(payload);
       setQr(result);
-      // Uebergabe protokollieren (Zeitstempel, Kategorie und optionaler Klarname).
+      // Übergabe protokollieren (Zeitstempel, Kategorie und optionaler Klarname).
       if (onHandover) {
         onHandover({ recipient, recipientName: trimmedName || null, at: payload.exportedAt });
       }
@@ -92,7 +92,7 @@ export function QrDialog({ open, onClose, profile, answersData, t, onHandover })
             value={recipient}
             onChange={(e) => {
               setRecipient(e.target.value);
-              setQr(null); // Empfaenger geaendert -> Code neu erzeugen
+              setQr(null); // Empfänger geändert -> Code neu erzeugen
             }}
           >
             {RECIPIENTS.map((r) => (

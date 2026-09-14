@@ -1,8 +1,8 @@
 /*
   SummaryPage.jsx
   Zusammenfassungsseite: zeigt alle Antworten des aktiven Profils gruppiert an (SummaryView),
-  bietet Sprung zurueck in einzelne Abschnitte sowie Druck-/PDF-Ausgabe und JSON-Export.
-  Enthaelt eine druckoptimierte Kopfzeile (nur im Druck sichtbar, .print-title).
+  bietet Sprung zurück in einzelne Abschnitte sowie Druck-/PDF-Ausgabe und JSON-Export.
+  Enthält eine druckoptimierte Kopfzeile (nur im Druck sichtbar, .print-title).
 */
 import React, { useState } from "react";
 import { SummaryView } from "../components/SummaryView.jsx";
