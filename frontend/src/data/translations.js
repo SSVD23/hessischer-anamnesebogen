@@ -37,6 +37,15 @@ export const translations = {
       title: "Digitaler Anamnesebogen",
       subtitle:
         "Erfassen Sie Ihre wichtigsten Gesundheitsangaben in Ruhe auf Ihrem eigenen Gerät – bevor Sie in die Praxis kommen.",
+      introTitle: "Was ist die E-Anamnese?",
+      introPoints: [
+        "Was ist das? Ein digitaler Anamnesebogen: Sie tragen Ihre Gesundheitsangaben schon zu Hause ein, bevor Sie zur Praxis kommen.",
+        "Das spart Zeit: Das Praxisteam muss nichts mehr von Papier abtippen.",
+        "Datenschutz: Ihre Angaben bleiben auf Ihrem eigenen Handy. Es gibt keinen Server und keine Cloud.",
+        "Mehrsprachig: Sie können in Ihrer eigenen Sprache antworten – zum Beispiel Deutsch, Englisch, Arabisch, Türkisch, Hindi, Französisch oder Spanisch.",
+        "Prototyp einer Bachelorarbeit an der TH Mittelhessen – noch kein fertiges Medizinprodukt.",
+      ],
+      introDismiss: "Beim nächsten Mal nicht mehr zeigen",
       disclaimerTitle: "Wichtiger Hinweis",
       disclaimerPoints: [
         "Dies ist ein Prototyp im Rahmen einer Bachelorarbeit und kein Medizinprodukt.",
@@ -192,6 +201,15 @@ export const translations = {
       badge: "Prototype",
       title: "Digital Anamnesis Form",
       subtitle: "Record your key health information calmly on your own device — before you arrive at the practice.",
+      introTitle: "What is the e-anamnesis?",
+      introPoints: [
+        "What is this? A digital medical history form: you fill in your health details at home before you visit the practice.",
+        "This saves time: the practice team no longer has to copy everything from paper by hand.",
+        "Privacy: your answers stay on your own phone. There is no server and no cloud.",
+        "Multilingual: you can answer in your own language — for example German, English, Arabic, Turkish, Hindi, French or Spanish.",
+        "A bachelor's thesis prototype from TH Mittelhessen — not yet a finished medical product.",
+      ],
+      introDismiss: "Don't show this again next time",
       disclaimerTitle: "Important notice",
       disclaimerPoints: [
         "This is a bachelor thesis prototype and not a medical device.",
@@ -319,6 +337,15 @@ export const translations = {
     welcome: {
       badge: "نموذج أولي", title: "استمارة التاريخ المرضي الرقمية",
       subtitle: "سجّل معلوماتك الصحية بهدوء على جهازك قبل الحضور إلى العيادة.",
+      introTitle: "ما هي الأنامنيز الرقمية؟",
+      introPoints: [
+        "ما هذا؟ استمارة تاريخ مرضي رقمية: تُدخل بياناتك الصحية في المنزل قبل زيارة العيادة.",
+        "هذا يوفر الوقت: لن يحتاج فريق العيادة إلى نسخ كل شيء يدوياً من الورق.",
+        "الخصوصية: تبقى بياناتك على هاتفك فقط. لا يوجد خادم ولا سحابة.",
+        "متعدد اللغات: يمكنك الإجابة بلغتك الخاصة — مثل الألمانية والإنجليزية والعربية والتركية والهندية والفرنسية والإسبانية.",
+        "نموذج أولي لأطروحة بكالوريوس من TH Mittelhessen — ليس بعد منتجاً طبياً نهائياً.",
+      ],
+      introDismiss: "عدم الإظهار مرة أخرى في المرة القادمة",
       disclaimerTitle: "ملاحظة هامة",
       disclaimerPoints: [
         "هذا نموذج أولي ضمن أطروحة بكالوريوس وليس جهازاً طبياً.",
@@ -442,6 +469,15 @@ export const translations = {
     welcome: {
       badge: "Prototip", title: "Dijital Anamnez Formu",
       subtitle: "Sağlık bilgilerinizi muayeneye gelmeden önce kendi cihazınızda sakin bir şekilde kaydedin.",
+      introTitle: "E-anamnez nedir?",
+      introPoints: [
+        "Bu nedir? Dijital bir anamnez formu: Muayenehaneye gelmeden önce sağlık bilgilerinizi evde girersiniz.",
+        "Bu zaman kazandırır: Muayenehane ekibinin her şeyi kağıttan elle kopyalaması gerekmez.",
+        "Veri gizliliği: Bilgileriniz yalnızca kendi telefonunuzda kalır. Sunucu veya bulut yoktur.",
+        "Çok dilli: Kendi dilinizde cevap verebilirsiniz — örneğin Almanca, İngilizce, Arapça, Türkçe, Hintçe, Fransızca veya İspanyolca.",
+        "TH Mittelhessen'den bir bitirme tezi prototipidir — henüz tamamlanmış bir tıbbi ürün değildir.",
+      ],
+      introDismiss: "Bir dahaki sefere tekrar gösterme",
       disclaimerTitle: "Önemli not",
       disclaimerPoints: [
         "Bu, bir bitirme tezi kapsamında bir prototiptir ve tıbbi cihaz değildir.",
@@ -565,6 +601,15 @@ export const translations = {
     welcome: {
       badge: "प्रोटोटाइप", title: "डिजिटल एनामनेसिस फॉर्म",
       subtitle: "क्लिनिक आने से पहले अपने डिवाइस पर आराम से अपनी स्वास्थ्य जानकारी दर्ज करें।",
+      introTitle: "ई-एनामनेसिस क्या है?",
+      introPoints: [
+        "यह क्या है? एक डिजिटल एनामनेसिस फ़ॉर्म: आप क्लिनिक आने से पहले अपनी स्वास्थ्य जानकारी घर पर ही भरते हैं।",
+        "इससे समय की बचत होती है: क्लिनिक टीम को कागज़ से सब कुछ हाथ से लिखने की ज़रूरत नहीं होती।",
+        "डेटा सुरक्षा: आपकी जानकारी केवल आपके अपने फ़ोन पर रहती है। कोई सर्वर या क्लाउड नहीं है।",
+        "बहुभाषी: आप अपनी भाषा में उत्तर दे सकते हैं — जैसे जर्मन, अंग्रेज़ी, अरबी, तुर्की, हिंदी, फ़्रेंच या स्पेनिश।",
+        "यह TH Mittelhessen की एक बैचलर थीसिस का प्रोटोटाइप है — अभी तक तैयार चिकित्सा उत्पाद नहीं है।",
+      ],
+      introDismiss: "अगली बार फिर से न दिखाएँ",
       disclaimerTitle: "महत्वपूर्ण सूचना",
       disclaimerPoints: [
         "यह एक स्नातक थीसिस प्रोटोटाइप है, चिकित्सा उपकरण नहीं।",
@@ -688,6 +733,15 @@ export const translations = {
     welcome: {
       badge: "Prototype", title: "Formulaire d'anamnèse numérique",
       subtitle: "Saisissez calmement vos informations de santé sur votre appareil avant de venir au cabinet.",
+      introTitle: "Qu'est-ce que l'e-anamnèse ?",
+      introPoints: [
+        "Qu'est-ce que c'est ? Un formulaire d'anamnèse numérique : vous saisissez vos informations de santé chez vous avant de venir au cabinet.",
+        "Cela fait gagner du temps : l'équipe du cabinet n'a plus besoin de tout recopier à la main depuis du papier.",
+        "Confidentialité : vos données restent uniquement sur votre téléphone. Il n'y a ni serveur ni cloud.",
+        "Multilingue : vous pouvez répondre dans votre propre langue — par exemple allemand, anglais, arabe, turc, hindi, français ou espagnol.",
+        "Prototype d'un travail de bachelor de la TH Mittelhessen — pas encore un produit médical finalisé.",
+      ],
+      introDismiss: "Ne plus afficher la prochaine fois",
       disclaimerTitle: "Note importante",
       disclaimerPoints: [
         "Ceci est un prototype de mémoire de licence et non un dispositif médical.",
@@ -811,6 +865,15 @@ export const translations = {
     welcome: {
       badge: "Prototipo", title: "Formulario de anamnesis digital",
       subtitle: "Registre con calma su información de salud en su propio dispositivo antes de acudir a la consulta.",
+      introTitle: "¿Qué es la e-anamnesis?",
+      introPoints: [
+        "¿Qué es esto? Un formulario de anamnesis digital: usted introduce sus datos de salud en casa antes de acudir a la consulta.",
+        "Esto ahorra tiempo: el equipo de la consulta ya no tiene que copiarlo todo a mano desde papel.",
+        "Privacidad: sus datos permanecen solo en su propio teléfono. No hay servidor ni nube.",
+        "Multilingüe: puede responder en su propio idioma — por ejemplo alemán, inglés, árabe, turco, hindi, francés o español.",
+        "Prototipo de un trabajo de fin de grado de la TH Mittelhessen — todavía no es un producto médico terminado.",
+      ],
+      introDismiss: "No volver a mostrar la próxima vez",
       disclaimerTitle: "Aviso importante",
       disclaimerPoints: [
         "Este es un prototipo de tesis de grado y no un producto sanitario.",

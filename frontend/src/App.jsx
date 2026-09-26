@@ -22,6 +22,7 @@ const newId = () => `p_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 
 export default function App() {
   const [language, setLanguage] = useState(() => storage.loadLanguage());
+  const [introDismissed, setIntroDismissed] = useState(() => storage.loadIntroDismissed());
   const [profiles, setProfiles] = useState(() => storage.loadProfiles());
   const [activeProfileId, setActiveProfileId] = useState(() => storage.loadActiveProfileId());
   const [page, setPage] = useState("welcome"); // welcome | profile | questionnaire | summary
@@ -145,7 +146,17 @@ export default function App() {
   // --- Seitenauswahl ---
   let content;
   if (page === "welcome") {
-    content = <WelcomePage t={t} onStart={() => setPage("profile")} />;
+    content = (
+      <WelcomePage
+        t={t}
+        introDismissed={introDismissed}
+        onDismissIntro={() => {
+          storage.dismissIntro();
+          setIntroDismissed(true);
+        }}
+        onStart={() => setPage("profile")}
+      />
+    );
   } else if (page === "profile") {
     content = (
       <ProfilePage

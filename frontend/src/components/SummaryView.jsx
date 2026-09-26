@@ -12,7 +12,7 @@ function formatValue(field, value, t, emptyLabel) {
   const empty = value === undefined || value === null || value === "" || (Array.isArray(value) && value.length === 0);
   if (empty) return { text: emptyLabel, isEmpty: true };
 
-  if (field.type === "select") {
+  if (field.type === "select" || field.type === "dependentSelect") {
     return { text: t(`questions.${field.id}.options.${value}`), isEmpty: false };
   }
   if (field.type === "checkbox") {
@@ -20,6 +20,14 @@ function formatValue(field, value, t, emptyLabel) {
       text: value.map((v) => t(`questions.${field.id}.options.${v}`)).join(", "),
       isEmpty: false,
     };
+  }
+  if (field.type === "repeatableGroup") {
+    const items = Array.isArray(value) ? value : [];
+    const rendered = items
+      .filter((item) => item && (item.description || item.year))
+      .map((item) => [item.description, item.year].filter(Boolean).join(" – "));
+    if (rendered.length === 0) return { text: emptyLabel, isEmpty: true };
+    return { text: rendered.join("; "), isEmpty: false };
   }
   return { text: String(value), isEmpty: false };
 }

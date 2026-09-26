@@ -16,6 +16,9 @@ const LANGUAGE_KEY = "anamnesis_language";
 // Übergabeprotokoll je Profil: wann wurde welcher Datensatz wem gezeigt.
 const HANDOVER_PREFIX = "anamnesis_handover_";
 const ANSWERS_PREFIX = "anamnesis_answers_";
+// Merkt sich, ob die Erklärungskarte auf der Startseite dauerhaft
+// ausgeblendet werden soll ("Beim nächsten Mal nicht mehr zeigen").
+const INTRO_DISMISSED_KEY = "anamnesis_intro_dismissed";
 
 // --- interne Helfer ---
 function read(key, fallback) {
@@ -60,6 +63,15 @@ export function loadLanguage() {
 
 export function saveLanguage(lang) {
   write(LANGUAGE_KEY, lang);
+}
+
+// --- Startseiten-Erklärung ---
+export function loadIntroDismissed() {
+  return read(INTRO_DISMISSED_KEY, false);
+}
+
+export function dismissIntro() {
+  write(INTRO_DISMISSED_KEY, true);
 }
 
 // --- Antworten (pro Profil getrennt) ---
@@ -112,6 +124,7 @@ export function clearAllData() {
         key === PROFILES_KEY ||
         key === ACTIVE_KEY ||
         key === LANGUAGE_KEY ||
+        key === INTRO_DISMISSED_KEY ||
         (key && key.startsWith(ANSWERS_PREFIX)) ||
         (key && key.startsWith(HANDOVER_PREFIX))
       ) {
